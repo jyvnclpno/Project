@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay Rent — HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+  <style>.method-card{border:2px solid #4a5568;border-radius:10px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color 0.15s;}.method-card.selected{border-color:#22c55e;background:rgba(34,197,94,0.05);}.method-card .mc-ico{font-size:24px;}.method-card .mc-label{color:#fff;font-size:14px;font-weight:500;}.method-card .mc-sub{color:#64748b;font-size:11px;}</style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">My Home</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item active" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item" href="tenant-tickets.html">🔧 My Tickets</a>
+    <div class="sb-section">Find a Room</div>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-hold.html">📌 My Holds</a>
+    <div class="sb-section">Account</div>
+    <a class="sb-item" href="tenant-lease.html">📋 My Lease</a>
+    <a class="sb-item" href="tenant-documents.html">📁 Documents</a>
+    <a class="sb-item" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-item" href="#" onclick="doLogout();return false;" style="color:#f87171">🚪 Logout</a>
+    <a class="sb-foot" href="tenant-settings.html"><div class="avatar purple">MR</div><div><div class="av-name">Marco Reyes</div><div class="av-role">Tenant · Unit 3A</div></div></a>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Pay Rent</h1><p>Track and submit your monthly payments</p></div>
+      <div class="topbar-r"><a href="tenant-notifications.html" class="icon-btn">🔔</a><a href="tenant-settings.html"><div class="avatar purple">MR</div></a></div>
+    </div>
+    <div class="db">
+      <div class="lease-banner">
+        <div><div class="lbl">This month's rent</div><div class="amount">₱8,500</div><div class="status">Due: May 5, 2026</div></div>
+        <button class="btn-outline-white" onclick="openModal('pay-modal')">Pay Now</button>
+      </div>
+
+      <div class="grid2">
+        <div class="cc">
+          <h3>Payment History <a href="#" onclick="return false;" style="font-size:12px;color:#64748b;">Export</a></h3>
+          <table><thead><tr><th>Period</th><th>Amount</th><th>Method</th><th>Ref #</th><th>Status</th></tr></thead>
+          <tbody id="pay-history"></tbody></table>
+          <p id="no-pay" style="color:#64748b;font-size:13px;text-align:center;padding:16px;display:none;">No payment records yet.</p>
+        </div>
+        <div class="cc">
+          <h3>Payment Summary</h3>
+          <table>
+            <tr><td>Monthly Rent</td><td style="color:#fff;font-weight:600;">₱8,500</td></tr>
+            <tr><td>Total Paid (2026)</td><td id="total-paid" style="color:#22c55e;font-weight:600;">—</td></tr>
+            <tr><td>Next Due</td><td style="color:#f59e0b;font-weight:600;">June 5, 2026</td></tr>
+            <tr><td>Status</td><td><span class="badge b-green">Current</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pay Modal -->
+<div id="pay-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1e272e;border:1px solid #4a5568;border-radius:14px;padding:28px;width:100%;max-width:460px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h3 style="color:#fff;margin:0;">💳 Submit Payment</h3>
+      <button onclick="closeModal('pay-modal')" style="background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;">Select your payment method and enter your reference number after completing the transfer.</p>
+    <p style="color:#64748b;font-size:12px;font-weight:600;margin-bottom:10px;">PAYMENT METHOD</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
+      <div class="method-card selected" onclick="selectMethod(this,'gcash')"><div class="mc-ico">📱</div><div><div class="mc-label">GCash</div><div class="mc-sub">09xx-xxx-xxxx · Juan dela Cruz</div></div></div>
+      <div class="method-card" onclick="selectMethod(this,'maya')"><div class="mc-ico">💜</div><div><div class="mc-label">Maya</div><div class="mc-sub">09xx-xxx-xxxx · Juan dela Cruz</div></div></div>
+      <div class="method-card" onclick="selectMethod(this,'bank')"><div class="mc-ico">🏦</div><div><div class="mc-label">Bank Transfer</div><div class="mc-sub">BDO · Acct: 001-234-5678</div></div></div>
+      <div class="method-card" onclick="selectMethod(this,'cash')"><div class="mc-ico">💵</div><div><div class="mc-label">Cash</div><div class="mc-sub">Hand to landlord directly</div></div></div>
+    </div>
+    <div class="form-group">
+      <label>Reference / Transaction Number</label>
+      <input type="text" id="pay-ref" placeholder="e.g. GCASH-2026050512345">
+    </div>
+    <div class="form-group">
+      <label>Amount Paid</label>
+      <input type="number" id="pay-amount" value="8500" min="1">
+    </div>
+    <div class="form-group">
+      <label>Note (optional)</label>
+      <input type="text" id="pay-note" placeholder="e.g. May 2026 rent">
+    </div>
+    <button class="btn-green-full" onclick="handlePayment()">Confirm Payment</button>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>
+guardPage('tenant');
+var selectedMethod = 'gcash';
+
+function selectMethod(el, method) {
+  document.querySelectorAll('.method-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedMethod = method;
+}
+
+var RENT_KEY = 'hs_rent_history';
+function getRentHistory() { try { var r=localStorage.getItem(RENT_KEY); return r?JSON.parse(r):[]; }catch(e){return[];} }
+
+function renderHistory() {
+  var hist = getRentHistory();
+  var tbody = document.getElementById('pay-history');
+  var noEl  = document.getElementById('no-pay');
+  // Seed demo data
+  var display = hist.length ? hist : [
+    { period:'April 2026', amount:8500, method:'GCash', ref:'GCASH-20260405001', status:'confirmed', date:new Date(Date.now()-86400000*30).toISOString() },
+    { period:'March 2026', amount:8500, method:'GCash', ref:'GCASH-20260305002', status:'confirmed', date:new Date(Date.now()-86400000*62).toISOString() },
+    { period:'February 2026', amount:8500, method:'Bank', ref:'BDO-20260205003', status:'confirmed', date:new Date(Date.now()-86400000*90).toISOString() }
+  ];
+  if (!display.length) { tbody.innerHTML=''; noEl.style.display='block'; return; }
+  noEl.style.display='none';
+  tbody.innerHTML = display.map(function(p){
+    var statusClass = p.status==='confirmed'?'b-green':p.status==='pending'?'b-yellow':'b-red';
+    return '<tr><td>'+p.period+'</td><td style="font-weight:600;">₱'+Number(p.amount).toLocaleString('en-PH')+'</td><td style="color:#94a3b8;font-size:12px;">'+p.method+'</td><td style="color:#64748b;font-size:11px;">'+p.ref+'</td><td><span class="badge '+statusClass+'">'+(p.status||'pending')+'</span></td></tr>';
+  }).join('');
+  // Total paid
+  var total = display.filter(function(p){return p.status==='confirmed';}).reduce(function(a,p){return a+p.amount;},0);
+  document.getElementById('total-paid').textContent = '₱' + total.toLocaleString('en-PH');
+}
+
+function handlePayment() {
+  var ref = document.getElementById('pay-ref').value.trim();
+  var amount = parseFloat(document.getElementById('pay-amount').value) || 0;
+  var note = document.getElementById('pay-note').value.trim();
+  if (!ref && selectedMethod !== 'cash') { showToast('Please enter a reference number.','error'); return; }
+  if (!amount || amount <= 0) { showToast('Please enter a valid amount.','error'); return; }
+  var now = new Date();
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var period = months[now.getMonth()] + ' ' + now.getFullYear();
+  var methodLabels = { gcash:'GCash', maya:'Maya', bank:'Bank Transfer', cash:'Cash' };
+  var hist = getRentHistory();
+  hist.unshift({ period:note||period, amount:amount, method:methodLabels[selectedMethod], ref:ref||'Cash payment', status:'pending', date:now.toISOString() });
+  localStorage.setItem(RENT_KEY, JSON.stringify(hist));
+  closeModal('pay-modal');
+  renderHistory();
+  showToast('Payment submitted! Pending landlord confirmation.','success');
+}
+
+renderHistory();
+</script>
+</body>
+</html>

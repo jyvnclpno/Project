@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Discounts</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item active" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Discount Management</h1><p>Platform-wide discount rules and special group rates</p></div>
+      <div class="topbar-r"><button class="btn-green" onclick="showToast('All discount settings saved!')">Save All Changes</button></div>
+    </div>
+    <div class="page-body">
+
+      <!-- Pending Verifications -->
+      <div class="section-card mb-20">
+        <div class="section-title">⏳ Pending Discount Verifications <span class="badge badge-red" style="margin-left:8px">3 pending</span></div>
+        <p style="font-size:12px;color:#94a3b8;margin-bottom:14px">These users claimed a special discount at booking. Verify their ID before the discount is applied to their rent.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tenant</th><th>Claimed Discount</th><th>Required ID</th><th>Room</th><th>Move-in</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Ana Torres</strong><div class="td-muted">ana@email.com</div></td>
+                <td><span class="badge badge-teal">Student 10%</span></td>
+                <td class="td-muted">School ID + Certificate of Enrollment</td>
+                <td>Room 1C — Green Park</td>
+                <td class="td-muted">May 5, 2026</td>
+                <td><div class="admin-actions">
+                  <button class="btn-green btn-sm" onclick="showToast('Student discount approved for Ana Torres!')">Approve</button>
+                  <button class="btn-red btn-sm" onclick="showToast('Discount rejected','warning')">Reject</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><strong>Nora Delos Reyes</strong><div class="td-muted">nora@email.com</div></td>
+                <td><span class="badge badge-green">Senior 20%</span></td>
+                <td class="td-muted">OSCA Senior Citizen ID</td>
+                <td>Bedspace 5 — Sunset Apts</td>
+                <td class="td-muted">May 10, 2026</td>
+                <td><div class="admin-actions">
+                  <button class="btn-green btn-sm" onclick="showToast('Senior discount approved for Nora!')">Approve</button>
+                  <button class="btn-red btn-sm" onclick="showToast('Discount rejected','warning')">Reject</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><strong>Carlo Ramos</strong><div class="td-muted">carlo@email.com</div></td>
+                <td><span class="badge badge-purple">PWD 20%</span></td>
+                <td class="td-muted">PDAO PWD ID</td>
+                <td>Dorm A — Villa Hermosa</td>
+                <td class="td-muted">May 15, 2026</td>
+                <td><div class="admin-actions">
+                  <button class="btn-green btn-sm" onclick="showToast('PWD discount approved for Carlo!')">Approve</button>
+                  <button class="btn-red btn-sm" onclick="showToast('Discount rejected','warning')">Reject</button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2 mb-20">
+        <!-- Lease Length Discounts -->
+        <div class="section-card">
+          <div class="section-title">📅 Platform Lease Length Discounts</div>
+          <p style="font-size:12px;color:#94a3b8;margin-bottom:14px">Default discount tiers applied across all properties. Landlords can set their own rates but cannot go below these minimums.</p>
+          <div id="lease-disc-list"></div>
+          <button class="btn-green btn-sm" style="margin-top:12px" onclick="showToast('Lease discounts saved!')">Save</button>
+        </div>
+
+        <!-- Special Discounts -->
+        <div class="section-card">
+          <div class="section-title">🇵🇭 Special Group Discounts</div>
+          <p style="font-size:12px;color:#94a3b8;margin-bottom:14px">Mandatory (legal) and voluntary discounts for special groups.</p>
+          <div id="special-disc-list"></div>
+          <div class="warn-box" style="margin-top:12px">
+            <h4>⚖️ Legal Compliance</h4>
+            <ul>
+              <li>Senior Citizen 20% (RA 9994) and PWD 20% (RA 10524) are MANDATORY and cannot be disabled.</li>
+              <li>Only one special discount applies at a time (the higher one if both qualify).</li>
+              <li>Lease discounts are separate and can be combined with one special discount.</li>
+            </ul>
+          </div>
+          <button class="btn-green btn-sm" style="margin-top:12px" onclick="showToast('Special discounts saved!')">Save</button>
+        </div>
+      </div>
+
+      <!-- Verified Discount Users -->
+      <div class="section-card">
+        <div class="section-title">✅ Verified Discount Users</div>
+        <div class="filter-bar">
+          <input class="search-input" id="disc-search" placeholder="🔍 Search by name…" oninput="filterTable('disc-search','disc-tbl')">
+          <select class="filter-select"><option>All Types</option><option>Student</option><option>Senior</option><option>PWD</option><option>Solo Parent</option></select>
+          <button class="btn-green btn-sm" onclick="showToast('Exported!')">Export CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="disc-tbl">
+            <thead><tr><th>Tenant</th><th>Discount Type</th><th>Rate</th><th>Verified On</th><th>Expires</th><th>Room</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Juan dela Cruz</strong></td><td><span class="badge badge-teal">Student</span></td><td class="text-green">10%</td><td class="td-muted">Jan 10, 2026</td><td class="td-muted">Jun 30, 2026 (end of sem)</td><td>Room 2B</td><td><button class="btn-red btn-sm" onclick="showToast('Discount revoked','warning')">Revoke</button></td></tr>
+              <tr><td><strong>Rosa Santos</strong></td><td><span class="badge badge-green">Senior Citizen</span></td><td class="text-green">20%</td><td class="td-muted">Feb 5, 2026</td><td class="td-muted">No expiry</td><td>Studio 4</td><td><button class="btn-red btn-sm" onclick="showToast('Discount revoked','warning')">Revoke</button></td></tr>
+              <tr><td><strong>Lito Cruz</strong></td><td><span class="badge badge-purple">PWD</span></td><td class="text-green">20%</td><td class="td-muted">Mar 1, 2026</td><td class="td-muted">No expiry</td><td>Room 2B</td><td><button class="btn-red btn-sm" onclick="showToast('Discount revoked','warning')">Revoke</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var leaseTiers = [
+  {label:'3-Month Lease',sub:'Quarterly commitment',val:3,id:'lt3'},
+  {label:'6-Month Lease',sub:'Semi-annual commitment',val:7,id:'lt6'},
+  {label:'1-Year Lease',sub:'Annual — Best deal for tenants',val:15,id:'lt12',best:true},
+];
+var specialDiscs = [
+  {ico:'👴',label:'Senior Citizen',sub:'RA 9994 — Mandatory by law',val:20,id:'ds',locked:true},
+  {ico:'♿',label:'PWD',sub:'RA 10524 — Mandatory by law',val:20,id:'dp',locked:true},
+  {ico:'🎓',label:'Student',sub:'Voluntary — Renewable each semester',val:10,id:'dst',locked:false,on:true},
+  {ico:'👩‍👧',label:'Solo Parent',sub:'RA 8972 — Voluntary',val:10,id:'dsp',locked:false,on:false},
+  {ico:'🏛️',label:'Government Employee',sub:'Voluntary promo',val:5,id:'dgov',locked:false,on:false},
+];
+
+var lh = '';
+leaseTiers.forEach(function(t){
+  lh += '<div class="disc-tier-row"><div class="disc-tier-label"><div>'+t.label+(t.best?'<span class="best-deal-banner">Best Deal</span>':'')+'</div><div class="disc-tier-sub">'+t.sub+'</div></div>' +
+    '<input type="number" value="'+t.val+'" min="0" max="50" id="'+t.id+'" style="width:70px;padding:7px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:'+(t.best?'#f59e0b':'white')+';font-size:13px;text-align:center;border-color:'+(t.best?'#f59e0b':'#4a5568')+'">' +
+    '<span class="text-muted text-sm">%</span>' +
+  '</div>';
+});
+document.getElementById('lease-disc-list').innerHTML = lh;
+
+var sh = '';
+specialDiscs.forEach(function(d){
+  sh += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #3d4a56">' +
+    '<span style="font-size:20px;width:26px">'+d.ico+'</span>' +
+    '<div style="flex:1"><div style="font-size:13px;font-weight:bold;color:white">'+d.label+(d.locked?' <span class="badge badge-red" style="font-size:9px">Mandatory</span>':'')+'</div><div style="font-size:11px;color:#94a3b8">'+d.sub+'</div></div>' +
+    '<input type="number" value="'+d.val+'" min="0" max="100" '+(d.locked?'disabled':'')+ ' style="width:65px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:'+(d.locked?'#94a3b8':'white')+';font-size:13px;text-align:center">' +
+    '<span class="text-muted text-sm">%</span>' +
+    (!d.locked?'<button class="toggle-sw'+(d.on?' on':'')+'" onclick="toggleSwitch(this)" style="flex-shrink:0"></button>':'<span style="font-size:11px;color:#f87171;font-weight:bold">LOCKED</span>') +
+  '</div>';
+});
+document.getElementById('special-disc-list').innerHTML = sh;
+</script>
+</body>
+</html>

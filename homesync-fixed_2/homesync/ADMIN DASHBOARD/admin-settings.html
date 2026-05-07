@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Settings</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item active" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar"><div><h1>System Settings</h1><p>Platform-wide configuration and admin preferences</p></div>
+      <div class="topbar-r"><button class="btn-green" onclick="showToast('All settings saved!')">Save All Changes</button></div>
+    </div>
+    <div class="page-body">
+      <div class="grid-2">
+        <!-- Platform Settings -->
+        <div>
+          <div class="section-card mb-14">
+            <div class="section-title">🌐 Platform Settings</div>
+            <div class="form-group"><label>Platform Name</label><input value="HomeSync Philippines"></div>
+            <div class="form-group"><label>Support Email</label><input value="support@homesync.ph"></div>
+            <div class="form-group"><label>Support Hotline</label><input value="0917-HOMESYNC"></div>
+            <div class="form-group"><label>Currency</label><select><option selected>PHP (₱) — Philippine Peso</option></select></div>
+            <div class="form-group"><label>Default Late Fee</label>
+              <select><option>5% per month</option><option>10% per month</option><option>₱200 flat fee</option></select>
+            </div>
+            <div class="form-group"><label>Hold Fee (Free Tier Duration)</label>
+              <select><option>24 hours</option><option selected>48 hours</option><option>72 hours</option></select>
+            </div>
+          </div>
+
+          <div class="section-card mb-14">
+            <div class="section-title">💳 Payment Gateways</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#3d4a56;border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">💚</span><div><div style="font-size:13px;font-weight:bold;color:white">GCash</div><div style="font-size:11px;color:#94a3b8">Manual upload + ref number verification</div></div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#3d4a56;border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">💙</span><div><div style="font-size:13px;font-weight:bold;color:white">Maya (PayMaya)</div><div style="font-size:11px;color:#94a3b8">Manual upload + ref number verification</div></div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#3d4a56;border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🏦</span><div><div style="font-size:13px;font-weight:bold;color:white">Bank Transfer</div><div style="font-size:11px;color:#94a3b8">BDO, BPI, UnionBank, Metrobank</div></div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#3d4a56;border-radius:8px">
+                <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">💵</span><div><div style="font-size:13px;font-weight:bold;color:white">Cash (In-Person)</div><div style="font-size:11px;color:#94a3b8">Landlord manually records payment</div></div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notification & Access Settings -->
+        <div>
+          <div class="section-card mb-14">
+            <div class="section-title">🔔 Notification Settings</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:13px;color:white">Rent Due Reminders (3 days before)</div><div style="font-size:11px;color:#94a3b8">Sent to all tenants via dashboard notification</div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:13px;color:white">Overdue Alerts (1 day after due)</div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:13px;color:white">Hold Expiry Warnings</div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:13px;color:white">New Report Alerts to Admin</div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:13px;color:white">Lease Expiry Reminders (30 days before)</div></div>
+                <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card mb-14">
+            <div class="section-title">👮 Admin Accounts</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px" id="admin-list"></div>
+            <button class="btn-blue btn-sm" onclick="openModal('add-admin-modal')">+ Add Admin Account</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-title">⚠️ Danger Zone</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid rgba(248,113,113,0.3);border-radius:8px;background:rgba(248,113,113,0.05)">
+                <div><div style="font-size:13px;color:white;font-weight:bold">Maintenance Mode</div><div style="font-size:11px;color:#94a3b8">Disables tenant login and shows maintenance notice</div></div>
+                <button class="toggle-sw" onclick="toggleSwitch(this);showToast('Maintenance mode toggled','warning')"></button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid rgba(248,113,113,0.3);border-radius:8px;background:rgba(248,113,113,0.05)">
+                <div><div style="font-size:13px;color:white;font-weight:bold">Freeze New Registrations</div><div style="font-size:11px;color:#94a3b8">Prevents new landlords and tenants from signing up</div></div>
+                <button class="toggle-sw" onclick="toggleSwitch(this)"></button>
+              </div>
+              <button class="btn-red" style="width:100%" onclick="confirmAction('This will clear all test data. Are you absolutely sure?',function(){showToast('Test data cleared','warning')})">Clear Test Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ADMIN MODAL -->
+<div class="modal-overlay hidden" id="add-admin-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>Add Admin Account</h2><button class="modal-close" onclick="closeModal('add-admin-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Full Name</label><input placeholder="e.g. Maria Cruz"></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="admin@homesync.ph"></div>
+      <div class="form-group"><label>Access Level</label>
+        <select><option>Super Admin (full access)</option><option>Moderator (reports + users)</option><option>Finance Admin (payments only)</option></select>
+      </div>
+      <div class="form-group"><label>Temporary Password</label><input type="password" placeholder="Must be changed on first login"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('add-admin-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('add-admin-modal');showToast('Admin account created!')">Create Admin</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var admins = [
+  {name:'System Admin',email:'admin@homesync.ph',level:'Super Admin',last:'May 3, 2026'},
+  {name:'Maria Cruz',email:'mcruz@homesync.ph',level:'Moderator',last:'May 2, 2026'},
+  {name:'Robert Tan',email:'rtan@homesync.ph',level:'Finance Admin',last:'Apr 30, 2026'},
+];
+var h='';
+admins.forEach(function(a){
+  h+='<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#3d4a56;border-radius:8px"><div class="avatar purple" style="width:28px;height:28px;font-size:10px">'+a.name.split(' ').map(function(n){return n[0];}).join('').slice(0,2)+'</div><div style="flex:1"><div style="font-size:12px;font-weight:bold;color:white">'+a.name+'</div><div style="font-size:10px;color:#94a3b8">'+a.email+' · '+a.level+'</div></div><button class="btn-red btn-sm" onclick="confirmAction(\'Remove this admin?\',function(){showToast(\'Admin removed\',\'warning\')})">Remove</button></div>';
+});
+document.getElementById('admin-list').innerHTML=h;
+</script>
+</body>
+</html>

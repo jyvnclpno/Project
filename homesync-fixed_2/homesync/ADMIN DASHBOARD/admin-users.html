@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Users</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item active" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>User Management</h1><p>Manage all tenants, landlords, and administrators</p></div>
+      <div class="topbar-r"><button class="btn-green" onclick="openModal('add-user-modal')">+ Add User</button></div>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+        <div class="stat-card"><div class="stat-ico blue">👤</div><div><div class="stat-num">412</div><div class="stat-label">Total Tenants</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">🏠</div><div><div class="stat-num">38</div><div class="stat-label">Landlords</div></div></div>
+        <div class="stat-card"><div class="stat-ico purple">🛡️</div><div><div class="stat-num">3</div><div class="stat-label">Admins</div></div></div>
+        <div class="stat-card"><div class="stat-ico red">⛔</div><div><div class="stat-num">5</div><div class="stat-label">Suspended</div></div></div>
+      </div>
+
+      <div class="page-tabs">
+        <a class="page-tab active" onclick="showUsers('all',this)">All Users</a>
+        <a class="page-tab" onclick="showUsers('tenant',this)">Tenants</a>
+        <a class="page-tab" onclick="showUsers('landlord',this)">Landlords</a>
+        <a class="page-tab" onclick="showUsers('admin',this)">Admins</a>
+      </div>
+
+      <div class="filter-bar">
+        <input class="search-input" id="user-search" placeholder="🔍 Search by name, email…" oninput="filterTable('user-search','users-tbl')">
+        <select class="filter-select"><option>All Status</option><option>Active</option><option>Suspended</option><option>Pending Verification</option></select>
+        <select class="filter-select"><option>All Discounts</option><option>Student</option><option>Senior</option><option>PWD</option><option>Solo Parent</option></select>
+        <button class="btn-green btn-sm" onclick="showToast('Exported to CSV!')">Export CSV</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table id="users-tbl">
+            <thead><tr><th>User</th><th>Role</th><th>Property / Room</th><th>Special Discount</th><th>Verified</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD USER MODAL -->
+<div class="modal-overlay hidden" id="add-user-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>Add New User</h2><button class="modal-close" onclick="closeModal('add-user-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid-2">
+        <div class="form-group"><label>First Name</label><input placeholder="Juan"></div>
+        <div class="form-group"><label>Last Name</label><input placeholder="dela Cruz"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="juan@email.com"></div>
+      <div class="form-group"><label>Phone</label><input placeholder="+63 9XX XXX XXXX"></div>
+      <div class="form-group"><label>Role</label>
+        <select><option>Tenant</option><option>Landlord</option><option>Admin</option></select>
+      </div>
+      <div class="form-group"><label>Special Discount</label>
+        <select><option>None</option><option>Student (10%)</option><option>Senior Citizen (20%)</option><option>PWD (20%)</option><option>Solo Parent (10%)</option><option>Government Employee (5%)</option></select>
+      </div>
+      <div class="form-group"><label>Temporary Password</label><input type="password" placeholder="User must change on first login"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('add-user-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('add-user-modal');showToast('User created and invite sent!')">Create User</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var users = [
+  {name:'Juan dela Cruz',email:'juan@email.com',role:'Tenant',room:'Room 2B, Sunset Apts',disc:'Student 10%',verified:true,status:'Active',joined:'Jan 10, 2026'},
+  {name:'Rosa Santos',email:'rosa@email.com',role:'Tenant',room:'Studio 4, Bayside',disc:'Senior 20%',verified:true,status:'Active',joined:'Feb 5, 2026'},
+  {name:'Marco Reyes',email:'marco@email.com',role:'Tenant',room:'Room 2B, Sunset Apts',disc:'None',verified:true,status:'Active',joined:'Jan 15, 2026'},
+  {name:'Ana Torres',email:'ana@email.com',role:'Tenant',room:'Room 1C (Reserved)',disc:'Student 10%',verified:false,status:'Pending',joined:'Apr 28, 2026'},
+  {name:'Maria Santos',email:'maria@email.com',role:'Landlord',room:'Sunset Apts, Bayside',disc:'—',verified:true,status:'Active',joined:'Dec 1, 2025'},
+  {name:'Pedro Villanueva',email:'pedro@email.com',role:'Landlord',room:'Villa Hermosa',disc:'—',verified:false,status:'Pending',joined:'Apr 30, 2026'},
+  {name:'System Admin',email:'admin@homesync.ph',role:'Admin',room:'—',disc:'—',verified:true,status:'Active',joined:'Nov 1, 2025'},
+  {name:'Lito Cruz',email:'lito@email.com',role:'Tenant',room:'Room 2B, Sunset Apts',disc:'PWD 20%',verified:true,status:'Active',joined:'Mar 1, 2026'},
+  {name:'Dennis Vega',email:'dennis@email.com',role:'Tenant',room:'Dorm A, Villa Hermosa',disc:'None',verified:true,status:'Suspended',joined:'Jan 20, 2026'},
+];
+
+var roleColor = {Tenant:'badge-blue',Landlord:'badge-amber',Admin:'badge-purple'};
+var discColor = {'Student 10%':'badge-teal','Senior 20%':'badge-green','PWD 20%':'badge-purple','Solo Parent 10%':'badge-blue','Gov\'t 5%':'badge-gray','None':'badge-gray','—':'badge-gray'};
+
+function renderUsers(filter) {
+  var list = filter && filter!=='all' ? users.filter(function(u){return u.role.toLowerCase()===filter;}) : users;
+  var h = '';
+  list.forEach(function(u){
+    var sc = u.status==='Active'?'badge-green':u.status==='Suspended'?'badge-red':'badge-amber';
+    h += '<tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:28px;height:28px;font-size:10px;background:#4a5568">'+u.name.split(' ').map(function(n){return n[0];}).join('').slice(0,2)+'</div><div><strong>'+u.name+'</strong><div class="td-muted">'+u.email+'</div></div></div></td>' +
+      '<td><span class="badge '+roleColor[u.role]+'">'+u.role+'</span></td>' +
+      '<td class="td-muted">'+u.room+'</td>' +
+      '<td><span class="badge '+(discColor[u.disc]||'badge-gray')+'">'+u.disc+'</span></td>' +
+      '<td>'+(u.verified?'<span class="verified">✓ Verified</span>':'<span class="unverified">⏳ Pending</span>')+'</td>' +
+      '<td><span class="badge '+sc+'">'+u.status+'</span></td>' +
+      '<td class="td-muted">'+u.joined+'</td>' +
+      '<td><div class="admin-actions">' +
+        '<button class="btn-blue btn-sm" onclick="showToast(\'Viewing \'+\''+u.name+'\')">View</button>' +
+        (u.status==='Active'?'<button class="btn-amber btn-sm" onclick="showToast(\''+u.name+' suspended\',\'warning\')">Suspend</button>':'<button class="btn-green btn-sm" onclick="showToast(\''+u.name+' reinstated\')">Reinstate</button>') +
+        '<button class="btn-red btn-sm" onclick="confirmAction(\'Delete '+u.name+'?\',function(){showToast(\'User deleted\',\'warning\')})">Delete</button>' +
+      '</div></td></tr>';
+  });
+  document.getElementById('users-tbody').innerHTML = h;
+}
+
+function showUsers(filter, el) {
+  document.querySelectorAll('.page-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderUsers(filter);
+}
+
+renderUsers('all');
+</script>
+</body>
+</html>

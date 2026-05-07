@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync — Manage Rooms</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a class="sb-logo" href="landlord-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">Main</div>
+    <a class="sb-item" href="landlord-overview.html">📊 Overview</a>
+    <a class="sb-item active" href="landlord-rooms.html">🏠 Rooms</a>
+    <a class="sb-item" href="landlord-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="landlord-tenants.html">👥 Tenants</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="landlord-payments.html">💳 Payments</a>
+    <a class="sb-item" href="landlord-reports.html">📈 Reports</a>
+    <div class="sb-section">Tools</div>
+    <a class="sb-item" href="landlord-tickets.html">🔧 Tickets <span class="sb-badge red">3</span></a>
+    <a class="sb-item" href="landlord-messages.html">💬 Messages <span class="sb-badge">2</span></a>
+    <a class="sb-item" href="landlord-documents.html">📁 Documents</a>
+    <a class="sb-item" href="landlord-notifications.html">🔔 Notifications <span class="sb-badge amber">5</span></a>
+    <a class="sb-item" href="landlord-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" onclick="sessionStorage.clear()">
+      <div class="avatar">MS</div>
+      <div><div class="av-name">Maria Santos</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Manage Rooms</h1><p>Post, edit, and track all your room listings</p></div>
+      <div class="topbar-r">
+        <button class="btn-green" onclick="openModal('post-room-modal')">+ Post New Room</button>
+      </div>
+    </div>
+    <div class="page-body">
+
+      <!-- Page Tabs -->
+      <div class="page-tabs">
+        <a class="page-tab active" onclick="switchPageTab('tab-listings')">All Listings</a>
+        <a class="page-tab" onclick="switchPageTab('tab-occupancy')">Room Occupancy</a>
+        <a class="page-tab" onclick="switchPageTab('tab-discounts')">Discounts & Promos</a>
+      </div>
+
+      <!-- TAB: LISTINGS -->
+      <div id="tab-listings">
+        <div class="filter-bar">
+          <input class="search-input" placeholder="🔍 Search rooms…" oninput="filterTable('srch','rooms-tbl')">
+          <select class="filter-select"><option>All Properties</option><option>Sunset Apartments</option><option>Bayside Residences</option></select>
+          <select class="filter-select"><option>All Status</option><option>Available</option><option>Full</option><option>Draft</option></select>
+          <select class="filter-select"><option>All Gender</option><option>Boys Only</option><option>Girls Only</option><option>Mixed</option></select>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table id="rooms-tbl">
+              <thead><tr>
+                <th>Room</th><th>Property</th><th>Type</th><th>Gender</th><th>Beds</th><th>Price/Bed</th><th>Discounts</th><th>Status</th><th>Actions</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Room 2B</strong><div class="td-muted">2nd Floor · 25 sqm</div></td>
+                  <td>Sunset Apartments, QC</td>
+                  <td>Shared Room</td>
+                  <td><span class="badge badge-blue">Boys Only</span></td>
+                  <td>4 beds<div class="td-muted">2 occupied · 1 reserved</div></td>
+                  <td class="text-green">₱2,800/mo</td>
+                  <td><span class="badge badge-teal">Student 10%</span><br><span class="badge badge-purple">PWD 5%</span></td>
+                  <td><span class="badge badge-green">Available</span></td>
+                  <td><div class="admin-actions">
+                    <button class="btn-blue btn-sm" onclick="openModal('post-room-modal')">Edit</button>
+                    <button class="btn-amber btn-sm">Hold</button>
+                    <button class="btn-red btn-sm" onclick="confirmAction('Unpublish this room?',function(){showToast('Room unpublished','warning')})">Unpublish</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><strong>Studio 4</strong><div class="td-muted">4th Floor · 35 sqm</div></td>
+                  <td>Bayside Residences, Pasig</td>
+                  <td>Private Room</td>
+                  <td><span class="badge badge-pink">Girls Only</span></td>
+                  <td>1 bed<div class="td-muted">1 occupied</div></td>
+                  <td class="text-green">₱6,500/mo</td>
+                  <td><span class="badge badge-teal">Senior 20%</span></td>
+                  <td><span class="badge badge-red">Full</span></td>
+                  <td><div class="admin-actions">
+                    <button class="btn-blue btn-sm" onclick="openModal('post-room-modal')">Edit</button>
+                    <button class="btn-red btn-sm">Unpublish</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><strong>Dorm A</strong><div class="td-muted">Ground Floor · 60 sqm</div></td>
+                  <td>Villa Hermosa, Taguig</td>
+                  <td>Dormitory</td>
+                  <td><span class="badge badge-purple">Mixed</span></td>
+                  <td>8 beds<div class="td-muted">8 occupied</div></td>
+                  <td class="text-green">₱1,800/mo</td>
+                  <td><span class="badge badge-teal">Student 10%</span></td>
+                  <td><span class="badge badge-red">Full</span></td>
+                  <td><div class="admin-actions">
+                    <button class="btn-blue btn-sm">Edit</button>
+                    <button class="btn-red btn-sm">Unpublish</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><strong>Room 1C</strong><div class="td-muted">1st Floor · 20 sqm</div></td>
+                  <td>Green Park, Mandaluyong</td>
+                  <td>Shared Room</td>
+                  <td><span class="badge badge-pink">Girls Only</span></td>
+                  <td>3 beds<div class="td-muted">1 reserved · 2 available</div></td>
+                  <td class="text-green">₱3,200/mo</td>
+                  <td><span class="badge badge-teal">Student 10%</span><br><span class="badge badge-green">Senior 20%</span></td>
+                  <td><span class="badge badge-green">Available</span></td>
+                  <td><div class="admin-actions">
+                    <button class="btn-blue btn-sm">Edit</button>
+                    <button class="btn-amber btn-sm">Hold</button>
+                    <button class="btn-red btn-sm">Unpublish</button>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: OCCUPANCY -->
+      <div id="tab-occupancy" style="display:none">
+        <div class="occ-legend mb-14">
+          <span><span class="leg-dot" style="background:#22c55e"></span>Occupied</span>
+          <span><span class="leg-dot" style="background:#f59e0b"></span>Reserved/Hold</span>
+          <span><span class="leg-dot" style="background:#4a5568"></span>Available</span>
+        </div>
+
+        <!-- Room 2B -->
+        <div class="room-occ-row open">
+          <div class="room-occ-hd" onclick="toggleOccRow(this)">
+            <div><div class="roh-name">Room 2B — Sunset Apartments, QC</div><div class="roh-prop">Boys Only · Shared Room · ₱2,800/bed</div></div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="badge badge-green">2 Occupied</span>
+              <span class="badge badge-amber">1 Reserved</span>
+              <span class="badge badge-gray">1 Available</span>
+              <span class="text-muted">▲</span>
+            </div>
+          </div>
+          <div class="room-occ-detail">
+            <div class="bed-map">
+              <div class="bed-slot occupied">
+                <div class="bs-ico">🧑</div>
+                <div class="bs-num">Bed 1 · Single</div>
+                <div class="bs-name">Marco Reyes</div>
+                <div class="bs-sub">Since Jan 2026</div>
+                <div class="bs-sub" style="color:#f59e0b">Until Dec 2026</div>
+                <div class="bs-status badge-green">Occupied</div>
+              </div>
+              <div class="bed-slot occupied">
+                <div class="bs-ico">🧑</div>
+                <div class="bs-num">Bed 2 · Single</div>
+                <div class="bs-name">Lito Cruz</div>
+                <div class="bs-sub">Since Mar 2026</div>
+                <div class="bs-sub" style="color:#f59e0b">Until Dec 2026</div>
+                <div class="bs-status badge-green">Occupied</div>
+              </div>
+              <div class="bed-slot reserved">
+                <div class="bs-ico">🔖</div>
+                <div class="bs-num">Bed 3 · Bunk Top</div>
+                <div class="bs-name">Ana Torres</div>
+                <div class="bs-sub">Booked by: Pedro Torres (Father)</div>
+                <div class="bs-sub" style="color:#f59e0b">Hold expires: 18hrs</div>
+                <div class="bs-status badge-amber">Reserved</div>
+              </div>
+              <div class="bed-slot available">
+                <div class="bs-ico">🛏️</div>
+                <div class="bs-num">Bed 4 · Bunk Bottom</div>
+                <div class="bs-name" style="color:#64748b">Available</div>
+                <div class="bs-status badge-gray">Open</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio 4 -->
+        <div class="room-occ-row">
+          <div class="room-occ-hd" onclick="toggleOccRow(this)">
+            <div><div class="roh-name">Studio 4 — Bayside Residences, Pasig</div><div class="roh-prop">Girls Only · Private Room · ₱6,500/mo</div></div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="badge badge-red">Full</span>
+              <span class="text-muted">▼</span>
+            </div>
+          </div>
+          <div class="room-occ-detail">
+            <div class="bed-map">
+              <div class="bed-slot occupied">
+                <div class="bs-ico">🧑</div>
+                <div class="bs-num">Bed 1 · Double</div>
+                <div class="bs-name">Rosa Santos</div>
+                <div class="bs-sub">Booked by: Pedro Santos (Father)</div>
+                <div class="bs-sub" style="color:#f59e0b">Until Jan 2027</div>
+                <div class="bs-status badge-green">Occupied</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: DISCOUNTS -->
+      <div id="tab-discounts" style="display:none">
+        <div class="grid-2 mb-14">
+          <div class="section-card">
+            <div class="section-title">📅 Lease Length Discounts</div>
+            <p style="font-size:12px;color:#94a3b8;margin-bottom:14px">Automatic discounts applied when tenants commit to longer lease durations.</p>
+            <div class="disc-tier-row">
+              <div class="disc-tier-label">
+                <div>Monthly (1 month)</div>
+                <div class="disc-tier-sub">Standard rate, no discount</div>
+              </div>
+              <input type="number" value="0" style="width:70px;padding:7px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:#94a3b8;font-size:13px;text-align:center" disabled>
+              <span class="text-muted text-sm">%</span>
+            </div>
+            <div class="disc-tier-row">
+              <div class="disc-tier-label">
+                <div>3-Month Lease</div>
+                <div class="disc-tier-sub">Quarterly commitment</div>
+              </div>
+              <input type="number" value="3" min="0" max="50" style="width:70px;padding:7px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center" id="d3">
+              <span class="text-muted text-sm">%</span>
+            </div>
+            <div class="disc-tier-row">
+              <div class="disc-tier-label">
+                <div>6-Month Lease</div>
+                <div class="disc-tier-sub">Semi-annual commitment</div>
+              </div>
+              <input type="number" value="7" min="0" max="50" style="width:70px;padding:7px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center" id="d6">
+              <span class="text-muted text-sm">%</span>
+            </div>
+            <div class="disc-tier-row">
+              <div class="disc-tier-label">
+                <div>1-Year Lease <span class="best-deal-banner">Best Deal</span></div>
+                <div class="disc-tier-sub">Annual commitment — highest discount</div>
+              </div>
+              <input type="number" value="15" min="0" max="50" style="width:70px;padding:7px;background:#3d4a56;border:1px solid #f59e0b;border-radius:6px;color:#f59e0b;font-size:13px;font-weight:bold;text-align:center" id="d12">
+              <span class="text-amber text-sm">%</span>
+            </div>
+            <div style="margin-top:14px">
+              <button class="btn-green btn-sm" onclick="showToast('Lease discounts saved!')">Save Discounts</button>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-title">🇵🇭 Philippine Special Discounts</div>
+            <p style="font-size:12px;color:#94a3b8;margin-bottom:14px">Required by Philippine law and voluntary promos for special groups. Tenants must present valid ID.</p>
+
+            <!-- Senior Citizen -->
+            <div class="promo-grid" style="grid-template-columns:1fr">
+              <div class="promo-card active-promo mb-14" style="margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:24px">👴</div>
+                    <div>
+                      <div class="pc-title">Senior Citizen Discount</div>
+                      <div class="pc-sub" style="margin:0">RA 9994 — Expanded Senior Citizens Act. Required by law.</div>
+                    </div>
+                  </div>
+                  <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:12px;color:#94a3b8">Discount Rate:</span>
+                  <input type="number" value="20" min="0" max="100" style="width:70px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center">
+                  <span class="text-muted">% off monthly rent</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px">Required ID: Senior Citizen ID (OSCA)</div>
+              </div>
+
+              <!-- PWD -->
+              <div class="promo-card active-promo mb-14" style="margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:24px">♿</div>
+                    <div>
+                      <div class="pc-title">PWD Discount</div>
+                      <div class="pc-sub" style="margin:0">RA 10524 — Persons With Disabilities. Required by law.</div>
+                    </div>
+                  </div>
+                  <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:12px;color:#94a3b8">Discount Rate:</span>
+                  <input type="number" value="20" min="0" max="100" style="width:70px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center">
+                  <span class="text-muted">% off monthly rent</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px">Required ID: PWD ID (PDAO)</div>
+              </div>
+
+              <!-- Student -->
+              <div class="promo-card active-promo mb-14" style="margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:24px">🎓</div>
+                    <div>
+                      <div class="pc-title">Student Discount</div>
+                      <div class="pc-sub" style="margin:0">Voluntary promo for enrolled students. Renewable each semester.</div>
+                    </div>
+                  </div>
+                  <button class="toggle-sw on" onclick="toggleSwitch(this)"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:12px;color:#94a3b8">Discount Rate:</span>
+                  <input type="number" value="10" min="0" max="100" style="width:70px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center">
+                  <span class="text-muted">% off monthly rent</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px">Required: Valid school ID + Certificate of Enrollment (COE)</div>
+              </div>
+
+              <!-- Solo Parent -->
+              <div class="promo-card mb-14" style="margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:24px">👩‍👧</div>
+                    <div>
+                      <div class="pc-title">Solo Parent Discount</div>
+                      <div class="pc-sub" style="margin:0">RA 8972 — Solo Parents Welfare Act. Voluntary.</div>
+                    </div>
+                  </div>
+                  <button class="toggle-sw" onclick="toggleSwitch(this)"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:12px;color:#94a3b8">Discount Rate:</span>
+                  <input type="number" value="10" min="0" max="100" style="width:70px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center">
+                  <span class="text-muted">% off monthly rent</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px">Required: Solo Parent ID (DSWD)</div>
+              </div>
+
+              <!-- Government Employee -->
+              <div class="promo-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:24px">🏛️</div>
+                    <div>
+                      <div class="pc-title">Government Employee</div>
+                      <div class="pc-sub" style="margin:0">Promo rate for public sector workers. Voluntary.</div>
+                    </div>
+                  </div>
+                  <button class="toggle-sw" onclick="toggleSwitch(this)"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:12px;color:#94a3b8">Discount Rate:</span>
+                  <input type="number" value="5" min="0" max="100" style="width:70px;padding:6px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:13px;text-align:center">
+                  <span class="text-muted">% off monthly rent</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px">Required: Government Employee ID</div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <button class="btn-green btn-sm" onclick="showToast('Special discounts saved!')">Save All Promos</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <h4>⚖️ Legal Note on Philippine Discounts</h4>
+          <ul>
+            <li>Senior Citizen (20%) and PWD (20%) discounts are mandated by law (RA 9994, RA 10524). These cannot be disabled.</li>
+            <li>Only one special discount applies at a time (whichever is higher). Discounts cannot be stacked with each other.</li>
+            <li>Lease length discounts are separate and can be combined with one special discount.</li>
+            <li>Always verify IDs before applying discounts. Keep photocopies on file.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- POST ROOM MODAL -->
+<div class="modal-overlay hidden" id="post-room-modal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-hd">
+      <h2>Post / Edit Room</h2>
+      <button class="modal-close" onclick="closeModal('post-room-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid-2 mb-14">
+        <div class="form-group"><label>Room Name / Number</label><input placeholder="e.g. Room 2B, Studio 4"></div>
+        <div class="form-group"><label>Property</label>
+          <select><option>Sunset Apartments</option><option>Bayside Residences</option><option>Villa Hermosa</option></select>
+        </div>
+      </div>
+      <div class="form-grid-3 mb-14">
+        <div class="form-group"><label>Floor</label><input placeholder="e.g. 2nd Floor"></div>
+        <div class="form-group"><label>Room Size (sqm)</label><input type="number" placeholder="25"></div>
+        <div class="form-group"><label>Available From</label><input type="date"></div>
+      </div>
+      <div class="form-group"><label>Room Type</label>
+        <div class="pill-group">
+          <div class="pill active" data-group="rtype" onclick="pillSelect(this,'rtype')">Private Room</div>
+          <div class="pill" data-group="rtype" onclick="pillSelect(this,'rtype')">Shared Room</div>
+          <div class="pill" data-group="rtype" onclick="pillSelect(this,'rtype')">Dormitory</div>
+          <div class="pill" data-group="rtype" onclick="pillSelect(this,'rtype')">Bedspace</div>
+          <div class="pill" data-group="rtype" onclick="pillSelect(this,'rtype')">Studio Unit</div>
+        </div>
+      </div>
+      <div class="form-group"><label>Gender Policy</label>
+        <div class="pill-group">
+          <div class="pill active-blue active" data-group="gender" onclick="pillSelect(this,'gender')">Boys Only</div>
+          <div class="pill" data-group="gender" onclick="pillSelect(this,'gender')">Girls Only</div>
+          <div class="pill" data-group="gender" onclick="pillSelect(this,'gender')">Mixed / Co-ed</div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-grid-2 mb-14">
+        <div class="form-group"><label>Number of Beds</label>
+          <select id="modal-bed-count" onchange="renderModalBeds()"><option>1</option><option>2</option><option selected>4</option><option>6</option><option>8</option></select>
+        </div>
+        <div class="form-group"><label>Pricing Mode</label>
+          <select><option>Per bed (individual price)</option><option>Per room (flat rate)</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Bed Types Offered</label>
+        <div class="pill-group">
+          <div class="pill active" data-group="btype" onclick="pillSelect(this,'btype')">Single</div>
+          <div class="pill" data-group="btype" onclick="pillSelect(this,'btype')">Double</div>
+          <div class="pill" data-group="btype" onclick="pillSelect(this,'btype')">Bunk Top</div>
+          <div class="pill" data-group="btype" onclick="pillSelect(this,'btype')">Bunk Bottom</div>
+          <div class="pill" data-group="btype" onclick="pillSelect(this,'btype')">Queen</div>
+          <div class="pill" data-group="btype" onclick="pillSelect(this,'btype')">Foam/Floor</div>
+        </div>
+      </div>
+      <div class="bed-config-grid mb-14" id="modal-beds"></div>
+      <hr>
+      <div class="form-grid-3 mb-14">
+        <div class="form-group"><label>Base Monthly Rent (₱)</label><input type="number" placeholder="3500"></div>
+        <div class="form-group"><label>Security Deposit</label>
+          <select><option>1 month</option><option>2 months</option><option>Custom</option></select>
+        </div>
+        <div class="form-group"><label>Advance Rent</label>
+          <select><option>None</option><option>1 month</option><option>2 months</option></select>
+        </div>
+      </div>
+      <div class="form-grid-2 mb-14">
+        <div class="form-group"><label>Late Payment Fee</label>
+          <select><option>5% per month</option><option>₱200 flat fee</option><option>10% per month</option></select>
+        </div>
+        <div class="form-group"><label>Electric Bill</label>
+          <select><option>Included in rent</option><option>Metered (tenant pays actual)</option><option>Fixed add-on</option></select>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group"><label>Amenities Included</label>
+        <div class="amenity-grid mt-6" id="amenity-list"></div>
+      </div>
+      <hr>
+      <div class="form-group"><label>Penalty Amounts</label>
+        <div id="penalty-inputs"></div>
+      </div>
+      <div class="form-group"><label>House Rules</label>
+        <textarea placeholder="No pets, no smoking, quiet hours 10PM–6AM..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('post-room-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('post-room-modal');showToast('Room saved and published!')">Post Room</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("landlord");</script>
+<script>
+function switchPageTab(id) {
+  ['tab-listings','tab-occupancy','tab-discounts'].forEach(function(t){ document.getElementById(t).style.display='none'; });
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.page-tab').forEach(function(t){ t.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+
+function renderModalBeds() {
+  var c = parseInt(document.getElementById('modal-bed-count').value);
+  var types = ['Single','Single','Double','Bunk Top','Bunk Bottom','Double','Single','Single'];
+  var prices = [2800,2800,3200,2500,2200,3200,2800,2800];
+  var h = '';
+  for(var i=0;i<c;i++){
+    h += '<div class="bed-cfg-card"><div class="bc-ico">🛏️</div><div class="bc-num">Bed '+(i+1)+'</div><div class="bc-type">'+types[i%types.length]+'</div><div class="bc-price">₱'+prices[i%prices.length].toLocaleString()+'/mo</div></div>';
+  }
+  document.getElementById('modal-beds').innerHTML = h;
+}
+
+function renderAmenities() {
+  var items = [
+    {ico:'📶',n:'WiFi',p:'Included'},{ico:'❄️',n:'Air Conditioning',p:'Included'},{ico:'🚿',n:'Private Bathroom',p:'Included'},
+    {ico:'🚿',n:'Shared Bathroom',p:'Free'},{ico:'🧺',n:'Laundry Area',p:'Free'},{ico:'🍳',n:'Kitchen Access',p:'Free'},
+    {ico:'🅿️',n:'Parking',p:'₱500/mo'},{ico:'🔒',n:'CCTV/Security',p:'Included'},{ico:'💡',n:'24hr Electricity',p:'Metered'},
+    {ico:'🛁',n:'Hot Shower',p:'Included'},{ico:'📺',n:'Cable TV',p:'₱200/mo'},{ico:'🧹',n:'Weekly Cleaning',p:'₱150/mo'},
+  ];
+  var h='';
+  items.forEach(function(a,i){
+    h+='<div class="amenity-item'+(i<4?' selected':'')+'" onclick="toggleAmenity(this)"><span class="ai-ico">'+a.ico+'</span><span class="ai-name">'+a.n+'</span><span class="ai-price">'+a.p+'</span></div>';
+  });
+  document.getElementById('amenity-list').innerHTML=h;
+}
+
+function renderPenalties() {
+  var items = [
+    {ico:'🔨',n:'Property Damage',d:'Repair/replacement cost'},
+    {ico:'📅',n:'Early Termination',d:'Without 30-day notice'},
+    {ico:'🔑',n:'Lost Key/Card',d:'Per lost item'},
+    {ico:'💸',n:'Unpaid Utilities',d:'Deducted from deposit'},
+    {ico:'🧹',n:'Move-out Cleaning',d:'If unit left unsanitary'},
+  ];
+  var h='';
+  items.forEach(function(p){
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #3d4a56"><span style="font-size:14px;width:20px">'+p.ico+'</span><div style="flex:1"><div style="font-size:12px;font-weight:bold;color:white">'+p.n+'</div><div style="font-size:11px;color:#94a3b8">'+p.d+'</div></div><input type="number" placeholder="₱" style="width:90px;padding:6px 10px;background:#3d4a56;border:1px solid #4a5568;border-radius:6px;color:white;font-size:12px;outline:none"></div>';
+  });
+  document.getElementById('penalty-inputs').innerHTML=h;
+}
+
+renderModalBeds();
+renderAmenities();
+renderPenalties();
+</script>
+</body>
+</html>

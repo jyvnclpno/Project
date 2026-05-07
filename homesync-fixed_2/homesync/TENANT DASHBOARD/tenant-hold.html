@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync — Hold & Reserve</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">Main</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item" href="tenant-lease.html">📄 My Lease</a>
+    <a class="sb-item active" href="tenant-hold.html">🔖 My Holds</a>
+    <div class="sb-section">Support</div>
+    <a class="sb-item" href="tenant-tickets.html">🔧 Tickets</a>
+    <a class="sb-item" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item" href="tenant-report.html">🚨 Report</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" onclick="sessionStorage.clear()">
+      <div class="avatar blue">JD</div>
+      <div><div class="av-name">Juan dela Cruz</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Hold &amp; Reserve</h1><p>Reserve a room while you finalize your decision</p></div>
+      <div class="topbar-r">
+        <button class="btn-green" onclick="openModal('new-hold-modal')">+ New Hold</button>
+      </div>
+    </div>
+    <div class="page-body">
+
+      <div class="grid-2 mb-20">
+        <div class="info-box">
+          <strong>Free Hold (48 hours)</strong> — Temporarily blocks a room for 48 hours at no cost. Room is auto-released if booking is not confirmed.
+        </div>
+        <div class="info-box">
+          <strong>Paid Hold (7–14 days)</strong> — Pay a small holding fee (credited to your first rent). Room is secured and landlord cannot show it to others.
+        </div>
+      </div>
+
+      <!-- Active Hold -->
+      <div class="section-card mb-20">
+        <div class="section-title">🔖 My Active Holds</div>
+        <div class="hold-card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:14px;font-weight:bold;color:white;margin-bottom:4px">Room 1C — Green Park, Mandaluyong</div>
+              <div style="font-size:12px;color:#94a3b8;margin-bottom:6px">Girls Only · Shared Room · 3 Beds · ₱3,200/bed/mo</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <span class="badge badge-amber">Free Hold</span>
+                <span class="badge badge-gray">Hold ID: HLD-2026-0440</span>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="countdown-box" style="margin:0;padding:10px 16px;display:inline-flex">
+                <div>
+                  <div style="font-size:10px;color:#f59e0b;font-weight:bold;margin-bottom:2px">Expires in</div>
+                  <div class="countdown-time" id="hold-timer">31:24:08</div>
+                  <div style="font-size:10px;color:#94a3b8">hours : min : sec</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-green btn-sm" onclick="window.location.href='tenant-browse.html'">Complete Booking</button>
+            <button class="btn-amber btn-sm" onclick="openModal('upgrade-hold-modal')">Upgrade to Paid Hold</button>
+            <button class="btn-red btn-sm" onclick="confirmAction('Release this hold? The room will become available to others.',function(){showToast('Hold released.','warning')})">Release Hold</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hold History -->
+      <div class="section-card">
+        <div class="section-title">📋 Hold History</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Room</th><th>Type</th><th>Hold ID</th><th>Date</th><th>Duration</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Room 2B</strong><div class="td-muted">Sunset Apartments, QC</div></td>
+                <td><span class="badge badge-green">Free</span></td>
+                <td class="td-muted">HLD-2026-0388</td>
+                <td class="td-muted">Apr 10, 2026</td>
+                <td class="td-muted">48 hours</td>
+                <td><span class="badge badge-green">Booked</span></td>
+              </tr>
+              <tr>
+                <td><strong>Studio 4</strong><div class="td-muted">Bayside Residences, Pasig</div></td>
+                <td><span class="badge badge-amber">Paid · ₱500</span></td>
+                <td class="td-muted">HLD-2026-0312</td>
+                <td class="td-muted">Mar 5, 2026</td>
+                <td class="td-muted">7 days</td>
+                <td><span class="badge badge-red">Cancelled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW HOLD MODAL -->
+<div class="modal-overlay hidden" id="new-hold-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>Place a New Hold</h2><button class="modal-close" onclick="closeModal('new-hold-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Select Room to Hold</label>
+        <select><option>Room 2B — Sunset Apartments, QC (₱2,800/mo)</option><option>Room 3A — Bayside Residences, Pasig (₱8,500/mo)</option><option>Bedspace 5 — Sunset Apartments, QC (₱1,500/mo)</option></select>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Hold For (Occupant Name)</label><input placeholder="Name of person moving in"></div>
+        <div class="form-group"><label>Relationship</label>
+          <select><option>Myself</option><option>Son</option><option>Daughter</option><option>Sibling</option><option>Other</option></select>
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Intended Move-in Date</label><input type="date"></div>
+        <div class="form-group"><label>Number of Beds</label><select><option>1</option><option>2</option><option>3</option></select></div>
+      </div>
+      <div class="form-group"><label>Hold Type</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #22c55e;border-radius:8px;cursor:pointer;background:rgba(34,197,94,0.06)">
+            <input type="radio" name="hold-type" checked> <div><div style="font-size:13px;font-weight:bold;color:white">Free Hold — 48 Hours</div><div style="font-size:11px;color:#94a3b8">No payment. Auto-released after 48 hours.</div></div>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #4a5568;border-radius:8px;cursor:pointer">
+            <input type="radio" name="hold-type"> <div><div style="font-size:13px;font-weight:bold;color:white">Paid Hold — 7 Days (₱500)</div><div style="font-size:11px;color:#94a3b8">₱500 credited to first rent. Secures room for 7 days.</div></div>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #4a5568;border-radius:8px;cursor:pointer">
+            <input type="radio" name="hold-type"> <div><div style="font-size:13px;font-weight:bold;color:white">Priority Hold — 14 Days (₱1,000)</div><div style="font-size:11px;color:#94a3b8">₱1,000 credited. Landlord cannot show room to others.</div></div>
+          </label>
+        </div>
+      </div>
+      <div class="form-group"><label>Note to Landlord (optional)</label><textarea placeholder="e.g. My son will view the room on May 5 around 3PM..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('new-hold-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('new-hold-modal');showToast('Hold placed! Room reserved for 48 hours.')">Confirm Hold</button>
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE HOLD MODAL -->
+<div class="modal-overlay hidden" id="upgrade-hold-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>Upgrade Hold</h2><button class="modal-close" onclick="closeModal('upgrade-hold-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="info-box"><strong>Room 1C — Green Park, Mandaluyong</strong><br>Current: Free Hold · 31 hrs remaining</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #22c55e;border-radius:8px;cursor:pointer;background:rgba(34,197,94,0.06)">
+          <input type="radio" name="up-type" checked>
+          <div><div style="font-size:13px;font-weight:bold;color:white">7-Day Hold — ₱500</div><div style="font-size:11px;color:#94a3b8">Credited to first month's rent. Room secured for 7 days.</div></div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #4a5568;border-radius:8px;cursor:pointer">
+          <input type="radio" name="up-type">
+          <div><div style="font-size:13px;font-weight:bold;color:white">14-Day Priority Hold — ₱1,000</div><div style="font-size:11px;color:#94a3b8">Credited to first month's rent. Exclusive — no viewings allowed.</div></div>
+        </label>
+      </div>
+      <p style="font-size:12px;color:#94a3b8;margin-top:12px">Payment via GCash / Maya / Bank Transfer. Proof of payment required.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('upgrade-hold-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('upgrade-hold-modal');showToast('Hold upgraded to 7 days!')">Pay & Upgrade</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("tenant");</script>
+<script>
+startCountdown('hold-timer', 31*3600 + 24*60 + 8);
+</script>
+</body>
+</html>

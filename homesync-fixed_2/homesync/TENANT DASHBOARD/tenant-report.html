@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync — Report</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">Main</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item" href="tenant-lease.html">📄 My Lease</a>
+    <a class="sb-item" href="tenant-hold.html">🔖 My Holds</a>
+    <div class="sb-section">Support</div>
+    <a class="sb-item" href="tenant-tickets.html">🔧 Tickets</a>
+    <a class="sb-item" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item active" href="tenant-report.html">🚨 Report</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" onclick="sessionStorage.clear()">
+      <div class="avatar blue">JD</div>
+      <div><div class="av-name">Juan dela Cruz</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Report an Issue</h1><p>Submit maintenance requests, complaints, or safety concerns</p></div>
+    </div>
+    <div class="page-body">
+      <div class="grid-2">
+        <!-- Submit Form -->
+        <div>
+          <div class="section-card">
+            <div class="section-title">📝 Submit a Report</div>
+            <div class="form-group"><label>Report Category</label>
+              <div class="promo-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px" id="rtype-grid"></div>
+            </div>
+            <div class="form-group"><label>Subject</label><input id="rep-subject" placeholder="Brief description of the issue"></div>
+            <div class="form-group"><label>Property / Room</label>
+              <select><option>Sunset Apartments — Room 2B</option><option>Bayside Residences — Studio 4</option></select>
+            </div>
+            <div class="form-group"><label>Reported Person (if any)</label><input placeholder="Name of tenant or landlord involved"></div>
+            <div class="form-group"><label>Severity</label>
+              <div style="display:flex;gap:8px;margin-top:6px">
+                <div class="pill active-blue" data-group="sev" onclick="pillSelect(this,'sev')" style="border-color:#60a5fa;color:#60a5fa;background:rgba(96,165,250,0.1)">Low</div>
+                <div class="pill active" data-group="sev" onclick="pillSelect(this,'sev')">Medium</div>
+                <div class="pill active-amber" data-group="sev" onclick="pillSelect(this,'sev')" style="border-color:#f59e0b;color:#f59e0b">High</div>
+                <div class="pill" style="border-color:#f87171;color:#f87171;background:rgba(248,113,113,0.1)" data-group="sev" onclick="pillSelect(this,'sev')">Urgent</div>
+              </div>
+            </div>
+            <div class="form-group"><label>Details</label>
+              <textarea placeholder="Describe the issue in full detail. Include dates, times, and context..."></textarea>
+            </div>
+            <div class="form-group"><label>Attach Evidence (optional)</label>
+              <div style="border:2px dashed #4a5568;border-radius:8px;padding:20px;text-align:center;cursor:pointer;font-size:13px;color:#94a3b8" onclick="showToast('File upload coming soon','info')">📎 Click to upload photos or screenshots</div>
+            </div>
+            <div class="form-group"><label>Report Anonymously?</label>
+              <div style="display:flex;gap:10px;margin-top:6px">
+                <div class="pill active" data-group="anon" onclick="pillSelect(this,'anon')">No — Show my name</div>
+                <div class="pill" data-group="anon" onclick="pillSelect(this,'anon')">Yes — Keep me anonymous</div>
+              </div>
+            </div>
+            <button class="btn-red" onclick="submitReport()" style="width:100%">Submit Report</button>
+          </div>
+        </div>
+
+        <!-- My Reports -->
+        <div>
+          <div class="section-card">
+            <div class="section-title">📂 My Reports</div>
+            <div id="my-reports-list"></div>
+          </div>
+          <div class="section-card" style="margin-top:0">
+            <div class="section-title">ℹ️ Status Guide</div>
+            <div style="font-size:12px;color:#94a3b8;line-height:2.2">
+              <div><span class="text-amber">● Under Review</span> — Report received and being assessed</div>
+              <div><span class="text-blue">● In Progress</span> — Action is being taken</div>
+              <div><span class="text-green">● Resolved</span> — Issue has been addressed</div>
+              <div><span class="text-dim">● Closed</span> — No action needed / duplicate</div>
+            </div>
+          </div>
+          <div class="section-card" style="margin-top:0">
+            <div class="section-title">🚨 Emergency Contacts</div>
+            <div style="font-size:12px;color:#94a3b8;line-height:2">
+              <div><strong style="color:white">BFP (Fire)</strong> — 911 or 02-8426-0219</div>
+              <div><strong style="color:white">PNP Emergency</strong> — 911 or 117</div>
+              <div><strong style="color:white">NDRRMC</strong> — 911 or 02-8911-5061</div>
+              <div><strong style="color:white">HomeSync Hotline</strong> — 0917-HOMESYNC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("tenant");</script>
+<script>
+var rtypes = [
+  {ico:'🔧',n:'Maintenance',k:'maintenance'},
+  {ico:'👤',n:'Tenant Issue',k:'tenant'},
+  {ico:'🏠',n:'Landlord Issue',k:'landlord'},
+  {ico:'💸',n:'Payment Dispute',k:'payment'},
+  {ico:'📜',n:'Policy Violation',k:'policy'},
+  {ico:'⚠️',n:'Safety Concern',k:'safety'},
+];
+var selRtype = 'maintenance';
+function renderRtypes() {
+  var h = '';
+  rtypes.forEach(function(r){
+    var isSel = selRtype===r.k;
+    h += '<div style="border:1px solid '+(isSel?'#f87171':'#4a5568')+';border-radius:8px;padding:12px;text-align:center;cursor:pointer;background:'+(isSel?'rgba(248,113,113,0.08)':'#3d4a56')+'" onclick="selRtype=\''+r.k+'\';renderRtypes()">' +
+      '<div style="font-size:20px;margin-bottom:5px">'+r.ico+'</div>' +
+      '<div style="font-size:11px;font-weight:bold;color:'+(isSel?'#f87171':'white')+'">'+r.n+'</div>' +
+    '</div>';
+  });
+  document.getElementById('rtype-grid').innerHTML = h;
+}
+
+var myReports = [
+  {ico:'🔧',type:'Maintenance',sub:'Leaking pipe — Room 2B bathroom',sev:'High',status:'in-progress',date:'Apr 28, 2026'},
+  {ico:'💸',type:'Payment Dispute',sub:'Incorrect rent amount for March',sev:'Medium',status:'resolved',date:'Mar 15, 2026'},
+  {ico:'📜',type:'Policy Violation',sub:'Noise complaint — neighbor unit',sev:'Low',status:'closed',date:'Feb 3, 2026'},
+];
+var statusColor = {'in-progress':'#60a5fa','resolved':'#22c55e','closed':'#64748b','under-review':'#f59e0b'};
+var statusLabel = {'in-progress':'In Progress','resolved':'Resolved','closed':'Closed','under-review':'Under Review'};
+
+function renderMyReports() {
+  var h = '';
+  myReports.forEach(function(r){
+    h += '<div class="report-card"><div class="report-ico">'+r.ico+'</div><div class="report-body">' +
+      '<div class="report-title">'+r.sub+'</div>' +
+      '<div class="report-sub">'+r.type+' · Severity: '+r.sev+'</div>' +
+      '<div class="report-meta"><span style="color:'+statusColor[r.status]+';font-weight:bold">● '+statusLabel[r.status]+'</span><span>'+r.date+'</span></div>' +
+    '</div></div>';
+  });
+  document.getElementById('my-reports-list').innerHTML = h;
+}
+
+function submitReport() {
+  var sub = document.getElementById('rep-subject').value.trim();
+  if(!sub){showToast('Please enter a subject for your report.','error');return;}
+  showToast('Report submitted! Case ID: RPT-2026-'+Math.floor(Math.random()*9000+1000));
+  document.getElementById('rep-subject').value = '';
+}
+
+renderRtypes();
+renderMyReports();
+</script>
+</body>
+</html>

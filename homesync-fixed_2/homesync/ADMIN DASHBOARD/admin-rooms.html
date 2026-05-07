@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Rooms</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item active" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar"><div><h1>All Rooms</h1><p>Platform-wide room listings and bed occupancy</p></div></div>
+    <div class="page-body">
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-ico blue">🏠</div><div><div class="stat-num">186</div><div class="stat-label">Total Rooms</div></div></div>
+        <div class="stat-card"><div class="stat-ico green">✅</div><div><div class="stat-num">163</div><div class="stat-label">Occupied Beds</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">🔖</div><div><div class="stat-num">12</div><div class="stat-label">Reserved/Hold</div></div></div>
+        <div class="stat-card"><div class="stat-ico red">🛏️</div><div><div class="stat-num">23</div><div class="stat-label">Available Beds</div></div></div>
+        <div class="stat-card"><div class="stat-ico purple">📋</div><div><div class="stat-num">4</div><div class="stat-label">Draft Listings</div></div></div>
+      </div>
+      <div class="filter-bar">
+        <input class="search-input" id="room-search" placeholder="🔍 Search room or property…" oninput="filterTable('room-search','admin-room-tbl')">
+        <select class="filter-select"><option>All Properties</option><option>Sunset Apartments</option><option>Bayside Residences</option><option>Villa Hermosa</option></select>
+        <select class="filter-select"><option>All Gender</option><option>Boys Only</option><option>Girls Only</option><option>Mixed</option></select>
+        <select class="filter-select"><option>All Status</option><option>Available</option><option>Full</option><option>Held</option><option>Draft</option></select>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table id="admin-room-tbl">
+            <thead><tr><th>Room</th><th>Property</th><th>Type</th><th>Gender</th><th>Beds</th><th>Price/Bed</th><th>Active Discounts</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Room 2B</strong><div class="td-muted">2nd Floor</div></td><td>Sunset Apartments, QC</td><td>Shared</td><td><span class="badge badge-blue">Boys</span></td><td>4<div class="td-muted">2 occ · 1 res · 1 free</div></td><td class="text-green">₱2,800</td><td><span class="badge badge-teal">Student 10%</span> <span class="badge badge-purple">PWD 20%</span></td><td><span class="badge badge-green">Available</span></td><td><div class="admin-actions"><button class="btn-blue btn-sm">View</button><button class="btn-red btn-sm" onclick="showToast('Room unlisted','warning')">Unlist</button></div></td></tr>
+              <tr><td><strong>Studio 4</strong><div class="td-muted">4th Floor</div></td><td>Bayside Residences, Pasig</td><td>Private</td><td><span class="badge badge-pink">Girls</span></td><td>1<div class="td-muted">1 occupied</div></td><td class="text-green">₱6,500</td><td><span class="badge badge-green">Senior 20%</span></td><td><span class="badge badge-red">Full</span></td><td><div class="admin-actions"><button class="btn-blue btn-sm">View</button></div></td></tr>
+              <tr><td><strong>Dorm A</strong><div class="td-muted">Ground Floor</div></td><td>Villa Hermosa, Taguig</td><td>Dormitory</td><td><span class="badge badge-purple">Mixed</span></td><td>8<div class="td-muted">8 occupied</div></td><td class="text-green">₱1,800</td><td><span class="badge badge-teal">Student 10%</span></td><td><span class="badge badge-red">Full</span></td><td><div class="admin-actions"><button class="btn-blue btn-sm">View</button></div></td></tr>
+              <tr><td><strong>Room 1C</strong><div class="td-muted">1st Floor</div></td><td>Green Park, Mandaluyong</td><td>Shared</td><td><span class="badge badge-pink">Girls</span></td><td>3<div class="td-muted">0 occ · 1 res · 2 free</div></td><td class="text-green">₱3,200</td><td><span class="badge badge-teal">Student 10%</span> <span class="badge badge-green">Senior 20%</span></td><td><span class="badge badge-green">Available</span></td><td><div class="admin-actions"><button class="btn-blue btn-sm">View</button><button class="btn-red btn-sm" onclick="showToast('Room unlisted','warning')">Unlist</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+</body>
+</html>

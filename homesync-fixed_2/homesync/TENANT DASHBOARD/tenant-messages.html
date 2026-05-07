@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages — HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+  <style>
+    .msg-layout{display:grid;grid-template-columns:280px 1fr;gap:0;height:calc(100vh - 80px);border:1px solid #4a5568;border-radius:12px;overflow:hidden;}
+    .msg-list{background:#1e272e;border-right:1px solid #4a5568;overflow-y:auto;}
+    .msg-list-header{padding:16px;border-bottom:1px solid #4a5568;display:flex;justify-content:space-between;align-items:center;}
+    .msg-list-header h3{color:#fff;font-size:14px;margin:0;}
+    .msg-item{padding:14px 16px;border-bottom:1px solid rgba(74,85,104,0.4);cursor:pointer;transition:background 0.15s;}
+    .msg-item:hover,.msg-item.active{background:#2e3840;}
+    .msg-item .mi-name{color:#fff;font-size:13px;font-weight:500;margin-bottom:3px;display:flex;justify-content:space-between;}
+    .msg-item .mi-sub{color:#94a3b8;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .msg-item .mi-time{color:#64748b;font-size:10px;}
+    .msg-item.unread .mi-name{color:#22c55e;}
+    .chat-area{display:flex;flex-direction:column;background:#131b21;}
+    .chat-header{padding:16px 20px;border-bottom:1px solid #4a5568;display:flex;align-items:center;gap:12px;}
+    .chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;}
+    .bubble{max-width:65%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.5;}
+    .bubble.me{background:#22c55e;color:#000;align-self:flex-end;border-bottom-right-radius:4px;}
+    .bubble.them{background:#2e3840;color:#e2e8f0;align-self:flex-start;border-bottom-left-radius:4px;}
+    .bubble-time{font-size:10px;opacity:0.6;margin-top:4px;}
+    .chat-input{padding:14px 16px;border-top:1px solid #4a5568;display:flex;gap:10px;}
+    .chat-input input{flex:1;padding:10px 14px;background:#2e3840;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;}
+    .chat-input button{padding:10px 18px;background:#22c55e;color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;}
+    .empty-chat{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#64748b;gap:8px;}
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">My Home</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item" href="tenant-tickets.html">🔧 My Tickets</a>
+    <div class="sb-section">Find a Room</div>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-hold.html">📌 My Holds</a>
+    <div class="sb-section">Account</div>
+    <a class="sb-item" href="tenant-lease.html">📋 My Lease</a>
+    <a class="sb-item" href="tenant-documents.html">📁 Documents</a>
+    <a class="sb-item active" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-item" href="#" onclick="doLogout();return false;" style="color:#f87171">🚪 Logout</a>
+    <a class="sb-foot" href="tenant-settings.html"><div class="avatar purple">MR</div><div><div class="av-name">Marco Reyes</div><div class="av-role">Tenant · Unit 3A</div></div></a>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Messages</h1><p>Chat with your landlord</p></div>
+      <div class="topbar-r"><a href="tenant-notifications.html" class="icon-btn">🔔</a><a href="tenant-settings.html"><div class="avatar purple">MR</div></a></div>
+    </div>
+    <div class="db" style="padding-top:0;">
+      <div class="msg-layout">
+        <div class="msg-list">
+          <div class="msg-list-header"><h3>Conversations</h3></div>
+          <div id="conv-list"></div>
+        </div>
+        <div class="chat-area">
+          <div id="chat-header" class="chat-header" style="display:none;">
+            <div class="avatar" id="chat-avatar" style="width:36px;height:36px;font-size:14px;"></div>
+            <div><div id="chat-name" style="color:#fff;font-size:14px;font-weight:500;"></div><div style="color:#22c55e;font-size:11px;">● Online</div></div>
+          </div>
+          <div class="chat-messages" id="chat-messages">
+            <div class="empty-chat"><div style="font-size:36px;">💬</div><div>Select a conversation to start chatting</div></div>
+          </div>
+          <div class="chat-input" id="chat-input-area" style="display:none;">
+            <input type="text" id="chat-msg-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+            <button onclick="sendChatMsg()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>
+guardPage('tenant');
+
+var CHAT_KEY = 'hs_chat_tenant_landlord';
+var activeConv = null;
+
+var conversations = [
+  { id: 'landlord', name: 'Juan dela Cruz', role: 'Landlord', initials: 'JD', avatarColor: '#22c55e' }
+];
+
+function getChat(convId) {
+  try { var c = localStorage.getItem(CHAT_KEY + '_' + convId); return c ? JSON.parse(c) : []; }
+  catch(e) { return []; }
+}
+function saveChat(convId, msgs) { localStorage.setItem(CHAT_KEY + '_' + convId, JSON.stringify(msgs)); }
+
+function renderConvList() {
+  var html = '';
+  conversations.forEach(function(c) {
+    var msgs = getChat(c.id);
+    var last = msgs.length ? msgs[msgs.length-1] : null;
+    html += '<div class="msg-item' + (activeConv===c.id?' active':'') + '" onclick="openConv(\'' + c.id + '\')">';
+    html += '<div class="mi-name"><span>' + c.name + '</span><span class="mi-time">' + (last ? timeAgo(last.time) : '') + '</span></div>';
+    html += '<div class="mi-sub">' + (last ? last.text : 'No messages yet') + '</div>';
+    html += '</div>';
+  });
+  document.getElementById('conv-list').innerHTML = html;
+}
+
+function openConv(id) {
+  activeConv = id;
+  var conv = conversations.find(function(c){ return c.id===id; });
+  document.getElementById('chat-header').style.display = 'flex';
+  document.getElementById('chat-input-area').style.display = 'flex';
+  document.getElementById('chat-avatar').textContent = conv.initials;
+  document.getElementById('chat-name').textContent = conv.name + ' — ' + conv.role;
+  renderMessages(id);
+  renderConvList();
+}
+
+function renderMessages(id) {
+  var msgs = getChat(id);
+  if (!msgs.length) {
+    // seed a demo message
+    msgs = [{ from:'landlord', text:'Hi! Feel free to message me anytime for concerns about your unit.', time: Date.now()-3600000 }];
+    saveChat(id, msgs);
+  }
+  var session = HS.getSession();
+  var html = msgs.map(function(m) {
+    var isMe = m.from === 'tenant' || (session && m.from === session.name);
+    return '<div><div class="bubble ' + (isMe?'me':'them') + '">' + escHtml(m.text) + '<div class="bubble-time">' + timeAgo(m.time) + '</div></div></div>';
+  }).join('');
+  var el = document.getElementById('chat-messages');
+  el.innerHTML = html;
+  el.scrollTop = el.scrollHeight;
+}
+
+function sendChatMsg() {
+  var input = document.getElementById('chat-msg-input');
+  var text = input.value.trim();
+  if (!text || !activeConv) return;
+  var msgs = getChat(activeConv);
+  msgs.push({ from:'tenant', text:text, time:Date.now() });
+  saveChat(activeConv, msgs);
+  input.value = '';
+  renderMessages(activeConv);
+  renderConvList();
+  // Simulate landlord reply after 1.5s
+  setTimeout(function() {
+    var replies = ['Got it! I\'ll look into that.','Thanks for letting me know.','I\'ll send someone to check.','Sure, noted!','No problem, I\'ll follow up on that.'];
+    var msgs2 = getChat(activeConv);
+    msgs2.push({ from:'landlord', text:replies[Math.floor(Math.random()*replies.length)], time:Date.now() });
+    saveChat(activeConv, msgs2);
+    if (activeConv) renderMessages(activeConv);
+    renderConvList();
+  }, 1500);
+}
+
+function timeAgo(ts) {
+  var diff = Math.floor((Date.now()-ts)/1000);
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
+}
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+renderConvList();
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents — HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <div class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">My Home</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item" href="tenant-tickets.html">🔧 My Tickets</a>
+    <div class="sb-section">Find a Room</div>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-hold.html">📌 My Holds</a>
+    <div class="sb-section">Account</div>
+    <a class="sb-item" href="tenant-lease.html">📋 My Lease</a>
+    <a class="sb-item active" href="tenant-documents.html">📁 Documents</a>
+    <a class="sb-item" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-item" href="#" onclick="doLogout();return false;" style="color:#f87171">🚪 Logout</a>
+    <a class="sb-foot" href="tenant-settings.html"><div class="avatar purple">MR</div><div><div class="av-name">Marco Reyes</div><div class="av-role">Tenant · Unit 3A</div></div></a>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Documents</h1><p>Your leases, receipts, and files</p></div>
+      <div class="topbar-r">
+        <button class="btn-green" onclick="document.getElementById('file-input').click()" style="font-size:13px;padding:8px 16px;">📎 Upload File</button>
+        <a href="tenant-notifications.html" class="icon-btn">🔔</a>
+        <a href="tenant-settings.html"><div class="avatar purple">MR</div></a>
+      </div>
+    </div>
+    <input type="file" id="file-input" style="display:none;" multiple onchange="handleFileUpload(event)">
+    <div class="db">
+      <div class="cc">
+        <h3>My Documents <span id="doc-count" style="font-weight:400;color:#64748b;font-size:13px;"></span></h3>
+        <div style="margin-bottom:14px;"><input type="text" id="doc-search" placeholder="🔍 Search documents..." oninput="filterDocs()" style="width:100%;max-width:320px;padding:8px 12px;background:#1e272e;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;box-sizing:border-box;"></div>
+        <table>
+          <thead><tr><th>File Name</th><th>Type</th><th>Size</th><th>Uploaded</th><th>Action</th></tr></thead>
+          <tbody id="doc-list"></tbody>
+        </table>
+        <p id="no-docs" style="color:#64748b;font-size:13px;text-align:center;padding:20px;display:none;">No documents yet. Click "Upload File" to add one.</p>
+      </div>
+      <div class="info-box" style="font-size:13px;margin-top:0;">
+        📌 <strong>Tip:</strong> Upload your valid IDs, lease agreements, and payment receipts here for easy access. Accepted formats: PDF, JPG, PNG, DOCX.
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>
+guardPage('tenant');
+var DOC_KEY = 'hs_tenant_docs';
+var allDocs = [];
+
+function loadDocs() {
+  try { var d = localStorage.getItem(DOC_KEY); allDocs = d ? JSON.parse(d) : []; } catch(e) { allDocs = []; }
+  if (!allDocs.length) {
+    allDocs = [
+      { id:'DOC-DEMO-1', name:'Lease Agreement - Unit 3A.pdf', type:'PDF', size:'1.2 MB', uploadedAt: new Date(Date.now()-86400000*30).toISOString() },
+      { id:'DOC-DEMO-2', name:'April 2026 Receipt.pdf', type:'PDF', size:'245 KB', uploadedAt: new Date(Date.now()-86400000*5).toISOString() },
+      { id:'DOC-DEMO-3', name:'Valid ID - Marco Reyes.jpg', type:'Image', size:'890 KB', uploadedAt: new Date(Date.now()-86400000*60).toISOString() }
+    ];
+  }
+  renderDocs(allDocs);
+}
+
+function renderDocs(list) {
+  document.getElementById('doc-count').textContent = '(' + list.length + ' files)';
+  var noEl = document.getElementById('no-docs');
+  var tbody = document.getElementById('doc-list');
+  if (!list.length) { tbody.innerHTML=''; noEl.style.display='block'; return; }
+  noEl.style.display = 'none';
+  var icons = { PDF:'📄', Image:'🖼️', Word:'📝', Excel:'📊', Other:'📎' };
+  tbody.innerHTML = list.map(function(d) {
+    var date = d.uploadedAt ? new Date(d.uploadedAt).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}) : '—';
+    return '<tr><td><span style="margin-right:6px;">' + (icons[d.type]||'📎') + '</span>' + d.name + '</td><td style="color:#94a3b8;font-size:12px;">' + d.type + '</td><td style="color:#64748b;font-size:12px;">' + d.size + '</td><td style="color:#64748b;font-size:11px;">' + date + '</td><td><button onclick="removeDoc(\'' + d.id + '\')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:12px;">🗑 Remove</button></td></tr>';
+  }).join('');
+}
+
+function filterDocs() {
+  var val = document.getElementById('doc-search').value.toLowerCase();
+  renderDocs(allDocs.filter(function(d){ return d.name.toLowerCase().includes(val); }));
+}
+
+function saveDocs() { localStorage.setItem(DOC_KEY, JSON.stringify(allDocs)); }
+
+function removeDoc(id) {
+  allDocs = allDocs.filter(function(d){ return d.id !== id; });
+  saveDocs(); renderDocs(allDocs); showToast('Document removed.','warning');
+}
+
+function handleFileUpload(event) {
+  var files = event.target.files;
+  Array.from(files).forEach(function(file) {
+    var ext = file.name.split('.').pop().toUpperCase();
+    var type = ['PDF'].includes(ext)?'PDF':['JPG','JPEG','PNG','GIF'].includes(ext)?'Image':['DOC','DOCX'].includes(ext)?'Word':['XLS','XLSX'].includes(ext)?'Excel':'Other';
+    var size = file.size > 1048576 ? (file.size/1048576).toFixed(1)+' MB' : Math.round(file.size/1024)+' KB';
+    allDocs.unshift({ id:'DOC-'+Date.now()+Math.random(), name:file.name, type:type, size:size, uploadedAt:new Date().toISOString() });
+  });
+  saveDocs(); renderDocs(allDocs);
+  showToast(files.length + ' file(s) uploaded successfully.','success');
+  event.target.value = '';
+}
+
+loadDocs();
+</script>
+</body>
+</html>

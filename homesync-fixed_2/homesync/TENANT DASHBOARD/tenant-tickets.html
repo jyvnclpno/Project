@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tickets — HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+  <style>#ticket-list td:first-child{max-width:220px;word-break:break-word;}</style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="sidebar">
+    <a class="sb-logo" href="tenant-overview.html">Home<span>Sync</span></a>
+    <div class="sb-section">My Home</div>
+    <a class="sb-item" href="tenant-overview.html">📊 Overview</a>
+    <a class="sb-item" href="tenant-rent.html">💳 Pay Rent</a>
+    <a class="sb-item active" href="tenant-tickets.html">🔧 My Tickets</a>
+    <div class="sb-section">Find a Room</div>
+    <a class="sb-item" href="tenant-browse.html">🔍 Browse Rooms</a>
+    <a class="sb-item" href="tenant-hold.html">📌 My Holds</a>
+    <div class="sb-section">Account</div>
+    <a class="sb-item" href="tenant-lease.html">📋 My Lease</a>
+    <a class="sb-item" href="tenant-documents.html">📁 Documents</a>
+    <a class="sb-item" href="tenant-messages.html">💬 Messages</a>
+    <a class="sb-item" href="tenant-notifications.html">🔔 Notifications</a>
+    <a class="sb-item" href="tenant-settings.html">⚙️ Settings</a>
+    <a class="sb-item" href="#" onclick="doLogout();return false;" style="color:#f87171">🚪 Logout</a>
+    <a class="sb-foot" href="tenant-settings.html"><div class="avatar purple">MR</div><div><div class="av-name">Marco Reyes</div><div class="av-role">Tenant · Unit 3A</div></div></a>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>My Tickets</h1><p>Report and track maintenance issues</p></div>
+      <div class="topbar-r">
+        <button class="btn-green" onclick="openModal('new-ticket-modal')" style="font-size:13px;padding:8px 16px;">➕ New Ticket</button>
+        <a href="tenant-notifications.html" class="icon-btn">🔔</a>
+        <a href="tenant-settings.html"><div class="avatar purple">MR</div></a>
+      </div>
+    </div>
+    <div class="db">
+      <div class="cc">
+        <h3>All Tickets</h3>
+        <div style="margin-bottom:12px;"><input type="text" id="ticket-search" placeholder="🔍 Search tickets..." oninput="filterTickets()" style="width:100%;max-width:320px;padding:8px 12px;background:#1e272e;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;box-sizing:border-box;"></div>
+        <table>
+          <thead><tr><th>ID</th><th>Issue</th><th>Category</th><th>Urgency</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="ticket-list"></tbody>
+        </table>
+        <p id="no-tickets" style="color:#64748b;font-size:13px;text-align:center;padding:20px;display:none;">No tickets yet. Click "New Ticket" to report an issue.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Ticket Modal -->
+<div id="new-ticket-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1e272e;border:1px solid #4a5568;border-radius:14px;padding:28px;width:100%;max-width:480px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h3 style="color:#fff;margin:0;">🔧 Report an Issue</h3>
+      <button onclick="closeModal('new-ticket-modal')" style="background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Issue Title</label>
+      <input type="text" id="tk-title" placeholder="e.g. Leaking faucet in kitchen">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="tk-cat" style="width:100%;padding:10px;background:#2e3840;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;">
+        <option>Plumbing</option><option>Electrical</option><option>HVAC / Aircon</option><option>Appliance</option><option>Pest Control</option><option>Structural / Walls</option><option>Internet / Cable</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Urgency</label>
+      <select id="tk-urgency" style="width:100%;padding:10px;background:#2e3840;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;">
+        <option value="low">🟢 Low — Not urgent</option>
+        <option value="normal" selected>🟡 Normal — Needs fixing soon</option>
+        <option value="high">🔴 High — Urgent, affecting daily life</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="tk-desc" rows="4" placeholder="Describe the problem in detail..." style="width:100%;padding:10px;background:#2e3840;border:1px solid #4a5568;border-radius:8px;color:#fff;font-size:13px;resize:vertical;box-sizing:border-box;"></textarea>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:6px;">
+      <button class="btn-green-full" onclick="handleSubmitTicket()" style="flex:1;margin:0;">Submit Ticket</button>
+      <button onclick="closeModal('new-ticket-modal')" style="flex:1;padding:11px;background:#2e3840;border:1px solid #4a5568;color:#94a3b8;border-radius:8px;cursor:pointer;font-size:13px;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>
+guardPage('tenant');
+
+var allTickets = [];
+
+function renderTickets(list) {
+  var tbody = document.getElementById('ticket-list');
+  var noEl  = document.getElementById('no-tickets');
+  if (!list.length) { tbody.innerHTML = ''; noEl.style.display='block'; return; }
+  noEl.style.display = 'none';
+  var statusColors = { open:'b-yellow', 'in-progress':'b-blue', done:'b-green', closed:'b-green' };
+  tbody.innerHTML = list.map(function(t) {
+    var urgColors = { low:'color:#22c55e', normal:'color:#f59e0b', high:'color:#f87171' };
+    var urg = t.urgency || 'normal';
+    var stat = t.status || 'open';
+    var date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}) : '—';
+    return '<tr><td style="color:#64748b;font-size:11px;">'+t.id+'</td><td>'+t.title+'</td><td style="color:#94a3b8;font-size:12px;">'+t.category+'</td><td style="font-size:12px;'+urgColors[urg]+'">'+urg.charAt(0).toUpperCase()+urg.slice(1)+'</td><td><span class="badge '+statusColors[stat]+'">'+stat.charAt(0).toUpperCase()+stat.slice(1)+'</span></td><td style="color:#64748b;font-size:11px;">'+date+'</td></tr>';
+  }).join('');
+}
+
+function loadTickets() {
+  var session = HS.getSession();
+  var all = getTickets();
+  allTickets = session ? all.filter(function(t){ return t.tenantEmail === session.email || !t.tenantEmail; }) : all;
+  // prepend demo tickets if empty
+  if (!allTickets.length) {
+    allTickets = [
+      { id:'TKT-DEMO-1', title:'Leaking faucet — kitchen', category:'Plumbing', urgency:'normal', status:'open', createdAt: new Date(Date.now()-86400000*2).toISOString() },
+      { id:'TKT-DEMO-2', title:'Broken window latch', category:'Structural / Walls', urgency:'low', status:'done', createdAt: new Date(Date.now()-86400000*10).toISOString() },
+      { id:'TKT-DEMO-3', title:'No hot water in shower', category:'Plumbing', urgency:'high', status:'done', createdAt: new Date(Date.now()-86400000*20).toISOString() }
+    ];
+  }
+  renderTickets(allTickets);
+}
+
+function filterTickets() {
+  var val = document.getElementById('ticket-search').value.toLowerCase();
+  var filtered = allTickets.filter(function(t){ return (t.title+t.category+t.status).toLowerCase().includes(val); });
+  renderTickets(filtered);
+}
+
+function handleSubmitTicket() {
+  var title  = document.getElementById('tk-title').value.trim();
+  var cat    = document.getElementById('tk-cat').value;
+  var urgency= document.getElementById('tk-urgency').value;
+  var desc   = document.getElementById('tk-desc').value.trim();
+  if (!title) { showToast('Please enter an issue title.','error'); return; }
+  if (!desc)  { showToast('Please describe the issue.','error'); return; }
+  var ticket = submitTicket(title, cat, desc, urgency);
+  allTickets.unshift(ticket);
+  renderTickets(allTickets);
+  closeModal('new-ticket-modal');
+  document.getElementById('tk-title').value = '';
+  document.getElementById('tk-desc').value = '';
+  showToast('Ticket submitted! Your landlord has been notified.','success');
+}
+
+loadTickets();
+</script>
+</body>
+</html>

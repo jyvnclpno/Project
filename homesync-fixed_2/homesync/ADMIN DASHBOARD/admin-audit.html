@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Audit Log</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item active" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Audit Log</h1><p>Complete record of all actions taken on the platform</p></div>
+      <div class="topbar-r"><button class="btn-green btn-sm" onclick="showToast('Log exported!')">Export Log</button></div>
+    </div>
+    <div class="page-body">
+      <div class="filter-bar">
+        <input class="search-input" id="audit-search" placeholder="🔍 Search by user, action…" oninput="filterTable('audit-search','audit-tbl')">
+        <select class="filter-select"><option>All Actions</option><option>Login</option><option>Payment</option><option>Booking</option><option>Discount Applied</option><option>Report Filed</option><option>User Created</option><option>Room Posted</option></select>
+        <select class="filter-select"><option>All Roles</option><option>Admin</option><option>Landlord</option><option>Tenant</option></select>
+        <input type="date" class="filter-select" value="2026-05-03">
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table id="audit-tbl">
+            <thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Action</th><th>Details</th><th>IP Address</th></tr></thead>
+            <tbody id="audit-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var logs = [
+  {time:'May 3, 2026 10:42 AM',user:'Juan dela Cruz',role:'Tenant',action:'Payment Made',detail:'₱2,800 rent for May 2026 — Room 2B (GCash)',ip:'192.168.1.10',color:'#22c55e'},
+  {time:'May 3, 2026 10:15 AM',user:'System Admin',role:'Admin',action:'Discount Approved',detail:'Student 10% discount approved for Ana Torres',ip:'192.168.1.1',color:'#a78bfa'},
+  {time:'May 3, 2026 09:58 AM',user:'Ana Torres',role:'Tenant',action:'Hold Placed',detail:'Free 48hr hold on Room 2B Bed 3 — Sunset Apts',ip:'192.168.1.22',color:'#f59e0b'},
+  {time:'May 3, 2026 09:30 AM',user:'Maria Santos',role:'Landlord',action:'Room Posted',detail:'New listing: Bedspace 7 — Sunset Apartments',ip:'192.168.1.5',color:'#60a5fa'},
+  {time:'May 3, 2026 08:45 AM',user:'System Admin',role:'Admin',action:'User Suspended',detail:'Account suspended: Dennis Vega (policy violation)',ip:'192.168.1.1',color:'#f87171'},
+  {time:'May 2, 2026 11:20 PM',user:'Rosa Santos',role:'Tenant',action:'Report Filed',detail:'RPT-2026-0835 — Payment Dispute: overbilling Mar 2026',ip:'192.168.1.18',color:'#f87171'},
+  {time:'May 2, 2026 08:15 PM',user:'Lito Cruz',role:'Tenant',action:'Login',detail:'Successful login from mobile device',ip:'192.168.1.14',color:'#64748b'},
+  {time:'May 2, 2026 06:00 PM',user:'Pedro Villanueva',role:'Landlord',action:'Property Submitted',detail:'New property submitted for review: Green Park Studios',ip:'192.168.1.30',color:'#60a5fa'},
+  {time:'May 2, 2026 03:30 PM',user:'System Admin',role:'Admin',action:'Announcement Published',detail:'Pinned: May 2026 Rent Reminder — All Tenants',ip:'192.168.1.1',color:'#a78bfa'},
+  {time:'May 2, 2026 10:00 AM',user:'Marco Reyes',role:'Tenant',action:'Booking Confirmed',detail:'Room 2B Bed 1 booked — 6-month lease (7% discount)',ip:'192.168.1.12',color:'#22c55e'},
+];
+var roleColor={Admin:'badge-purple',Landlord:'badge-amber',Tenant:'badge-blue'};
+var h='';
+logs.forEach(function(l){
+  h+='<tr><td class="td-muted" style="font-size:11px;white-space:nowrap">'+l.time+'</td><td><strong>'+l.user+'</strong></td><td><span class="badge '+roleColor[l.role]+'">'+l.role+'</span></td><td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:'+l.color+';display:inline-block;flex-shrink:0"></span>'+l.action+'</span></td><td class="td-muted" style="max-width:220px">'+l.detail+'</td><td class="td-muted" style="font-size:11px;font-family:monospace">'+l.ip+'</td></tr>';
+});
+document.getElementById('audit-tbody').innerHTML=h;
+</script>
+</body>
+</html>

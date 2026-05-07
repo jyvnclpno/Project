@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Overview</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <!-- ADMIN SIDEBAR -->
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px;font-weight:bold">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item active" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div>
+      <div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Admin Overview</h1><p>Platform health and activity at a glance — Updated: May 3, 2026</p></div>
+      <div class="topbar-r">
+        <span class="badge badge-green" style="font-size:12px">● System Online</span>
+        <a class="icon-btn" href="admin-reports.html">🚨</a>
+      </div>
+    </div>
+    <div class="page-body">
+
+      <!-- Stats -->
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-ico green">🏢</div><div><div class="stat-num">24</div><div class="stat-label">Total Properties</div><div class="stat-change">+2 this month</div></div></div>
+        <div class="stat-card"><div class="stat-ico blue">🏠</div><div><div class="stat-num">186</div><div class="stat-label">Total Rooms</div><div class="stat-change">+8 this month</div></div></div>
+        <div class="stat-card"><div class="stat-ico purple">👥</div><div><div class="stat-num">412</div><div class="stat-label">Total Tenants</div><div class="stat-change">+31 this month</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">🏠</div><div><div class="stat-num">38</div><div class="stat-label">Landlords</div><div class="stat-change">+4 this month</div></div></div>
+        <div class="stat-card"><div class="stat-ico red">🚨</div><div><div class="stat-num">7</div><div class="stat-label">Open Reports</div><div class="stat-change down">Needs review</div></div></div>
+      </div>
+
+      <div class="grid-2 mb-20">
+        <div class="stat-card"><div class="stat-ico green">💳</div><div><div class="stat-num">₱1.84M</div><div class="stat-label">Total Revenue (May)</div><div class="stat-change">+12% vs April</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">📈</div><div><div class="stat-num">87.6%</div><div class="stat-label">Occupancy Rate</div><div class="stat-change">+3.2% vs April</div></div></div>
+      </div>
+
+      <div class="grid-2 mb-20">
+        <!-- Revenue Chart -->
+        <div class="card">
+          <div class="card-title"><span>📈</span> Monthly Revenue (2026)</div>
+          <div class="chart-box" id="rev-chart"></div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-title"><span>⚡</span> Recent Activity</div>
+          <div id="activity-feed"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Top Properties -->
+        <div class="card">
+          <div class="card-title"><span>🏢</span> Top Properties by Revenue</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Property</th><th>Units</th><th>Occupancy</th><th>Revenue</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Sunset Apartments</strong><div class="td-muted">Quezon City</div></td><td>45</td><td><span class="text-green">94%</span></td><td class="text-green">₱480,000</td></tr>
+                <tr><td><strong>Bayside Residences</strong><div class="td-muted">Pasig City</div></td><td>38</div></td><td><span class="text-green">89%</span></td><td class="text-green">₱390,000</td></tr>
+                <tr><td><strong>Villa Hermosa</strong><div class="td-muted">Taguig City</div></td><td>30</div></td><td><span class="text-amber">78%</span></td><td class="text-green">₱280,000</td></tr>
+                <tr><td><strong>Green Park Studios</strong><div class="td-muted">Mandaluyong</div></td><td>22</div></td><td><span class="text-amber">82%</span></td><td class="text-green">₱240,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Open Reports -->
+        <div class="card">
+          <div class="card-title"><span>🚨</span> Open Reports <a href="admin-reports.html" style="font-size:11px;color:#22c55e;font-weight:normal;text-decoration:none">View all →</a></div>
+          <div id="open-reports"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var months = ['Jan','Feb','Mar','Apr','May'];
+var revenues = [1420000,1550000,1680000,1760000,1840000];
+var maxR = Math.max.apply(null, revenues);
+var chartH = '';
+months.forEach(function(m,i){
+  var pct = Math.round((revenues[i]/maxR)*160);
+  chartH += '<div class="chart-bar-wrap"><div class="chart-bar" style="height:'+pct+'px"></div><div class="chart-lbl">'+m+'<br><span style="color:#22c55e;font-size:8px">₱'+Math.round(revenues[i]/1000)+'k</span></div></div>';
+});
+document.getElementById('rev-chart').innerHTML = chartH;
+
+var activities = [
+  {dot:'#22c55e',txt:'<strong>Marco Reyes</strong> paid ₱2,800 rent for May',time:'2 min ago'},
+  {dot:'#f87171',txt:'New report: <strong>Leaking pipe</strong> in Room 2B — High priority',time:'15 min ago'},
+  {dot:'#60a5fa',txt:'<strong>Ana Torres</strong> placed a hold on Room 2B Bed 3',time:'1 hr ago'},
+  {dot:'#a78bfa',txt:'<strong>Rosa Santos</strong> account verified (PWD discount applied)',time:'2 hrs ago'},
+  {dot:'#22c55e',txt:'New landlord registered: <strong>Pedro Villanueva</strong>',time:'3 hrs ago'},
+  {dot:'#f59e0b',txt:'Hold HLD-2026-0440 expires in 31 hours',time:'4 hrs ago'},
+  {dot:'#22c55e',txt:'<strong>Dorm A</strong> reached 100% occupancy',time:'5 hrs ago'},
+];
+var af = '';
+activities.forEach(function(a){
+  af += '<div class="activity-item"><div class="act-dot" style="background:'+a.dot+'"></div><div class="act-body">'+a.txt+'</div><div class="act-time">'+a.time+'</div></div>';
+});
+document.getElementById('activity-feed').innerHTML = af;
+
+var reports = [
+  {ico:'🔧',title:'Leaking pipe — Room 2B',sub:'Severity: High · Sunset Apartments',sev:'badge-red'},
+  {ico:'💸',title:'Overbilling complaint — Studio 4',sub:'Severity: Medium · Bayside Res.',sev:'badge-amber'},
+  {ico:'👤',title:'Noise violation — Dorm A',sub:'Severity: Low · Villa Hermosa',sev:'badge-blue'},
+];
+var rh = '';
+reports.forEach(function(r){
+  rh += '<div class="report-card"><div class="report-ico">'+r.ico+'</div><div class="report-body"><div class="report-title">'+r.title+'</div><div class="report-sub">'+r.sub+'</div></div><span class="badge '+r.sev+'" style="align-self:flex-start;white-space:nowrap">Open</span></div>';
+});
+document.getElementById('open-reports').innerHTML = rh;
+</script>
+</body>
+</html>

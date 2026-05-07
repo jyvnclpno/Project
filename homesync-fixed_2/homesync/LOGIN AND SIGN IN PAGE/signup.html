@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<nav>
+  <a class="logo" href="../LANDING PAGE/index.html">Home<span>Sync</span></a>
+  <div class="nav-links">
+    <a href="../LANDING PAGE/index.html">Home</a>
+    <a href="login.html">Login</a>
+  </div>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <h2>Create your account</h2>
+    <p class="auth-sub">Already have an account? <a href="login.html">Sign in</a></p>
+
+    <p style="font-size:12px;font-weight:600;margin-bottom:8px;color:#94a3b8;">I am a:</p>
+    <div class="role-sel">
+      <div class="role-opt selected" data-role="tenant" onclick="selectRole(this)">👤 Tenant</div>
+      <div class="role-opt" data-role="landlord" onclick="selectRole(this)">🏠 Landlord</div>
+    </div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="e.g. Maria Santos">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="reg-email" placeholder="you@email.com">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="reg-phone" placeholder="e.g. 09171234567">
+    </div>
+    <div class="form-group">
+      <label>Password <span style="color:#64748b;font-weight:400">(min. 6 characters)</span></label>
+      <input type="password" id="reg-pass" placeholder="••••••••">
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" id="reg-pass2" placeholder="••••••••" onkeydown="if(event.key==='Enter')doRegister()">
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;">
+      <input type="checkbox" id="reg-agree" style="margin-top:3px;accent-color:#22c55e;width:14px;height:14px;flex-shrink:0;">
+      <label for="reg-agree" style="font-size:12px;color:#94a3b8;cursor:pointer;">
+        I agree to the <a href="../PAGES/terms.html" style="color:#22c55e">Terms of Service</a> and <a href="../PAGES/privacy.html" style="color:#22c55e">Privacy Policy</a>
+      </label>
+    </div>
+
+    <button class="btn-green-full" onclick="doRegister()">Create Account</button>
+    <a class="back-link" href="../LANDING PAGE/index.html">← Back to home</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../PAGES/privacy.html">Privacy Policy</a>
+    <a href="../PAGES/terms.html">Terms of Service</a>
+    <a href="../PAGES/contact.html">Support</a>
+  </div>
+  <p>© 2026 HomeSync Philippines. All rights reserved.</p>
+</footer>
+<script src="../ASSETS/main.js"></script>
+</body>
+</html>

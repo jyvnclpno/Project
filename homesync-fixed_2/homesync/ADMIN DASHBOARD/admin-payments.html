@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Payments</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item active" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Payment Management</h1><p>Track all transactions, disputes, and financial activity</p></div>
+      <div class="topbar-r"><button class="btn-green btn-sm" onclick="showToast('Report exported!')">Export Report</button></div>
+    </div>
+    <div class="page-body">
+
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-ico green">💰</div><div><div class="stat-num">₱1.84M</div><div class="stat-label">May Revenue</div><div class="stat-change">+12%</div></div></div>
+        <div class="stat-card"><div class="stat-ico blue">✅</div><div><div class="stat-num">368</div><div class="stat-label">Paid This Month</div></div></div>
+        <div class="stat-card"><div class="stat-ico red">⚠️</div><div><div class="stat-num">14</div><div class="stat-label">Overdue</div><div class="stat-change down">Action needed</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">⏳</div><div><div class="stat-num">8</div><div class="stat-label">Pending Verification</div></div></div>
+        <div class="stat-card"><div class="stat-ico purple">🔄</div><div><div class="stat-num">3</div><div class="stat-label">Disputes Open</div></div></div>
+      </div>
+
+      <div class="page-tabs">
+        <a class="page-tab active" onclick="showPayTab('tab-all',this)">All Transactions</a>
+        <a class="page-tab" onclick="showPayTab('tab-pending',this)">Pending Verification</a>
+        <a class="page-tab" onclick="showPayTab('tab-overdue',this)">Overdue</a>
+        <a class="page-tab" onclick="showPayTab('tab-disputes',this)">Disputes</a>
+      </div>
+
+      <!-- ALL TRANSACTIONS -->
+      <div id="tab-all">
+        <div class="filter-bar">
+          <input class="search-input" id="pay-search" placeholder="🔍 Search tenant, property…" oninput="filterTable('pay-search','pay-tbl')">
+          <select class="filter-select"><option>All Properties</option><option>Sunset Apartments</option><option>Bayside Residences</option><option>Villa Hermosa</option></select>
+          <select class="filter-select"><option>All Methods</option><option>GCash</option><option>Maya</option><option>Bank Transfer</option><option>Cash</option></select>
+          <select class="filter-select"><option>All Status</option><option>Paid</option><option>Pending</option><option>Overdue</option><option>Disputed</option></select>
+          <input type="month" class="filter-select" value="2026-05">
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table id="pay-tbl">
+              <thead><tr><th>Ref #</th><th>Tenant</th><th>Property / Room</th><th>Amount</th><th>Discount Applied</th><th>Method</th><th>Period</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="pay-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENDING -->
+      <div id="tab-pending" style="display:none">
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Tenant</th><th>Amount</th><th>Method</th><th>Proof Submitted</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Carlo Ramos</strong><div class="td-muted">Dorm A · Villa Hermosa</div></td><td class="text-green">₱1,440</td><td><span class="badge badge-green">GCash</span></td><td class="td-muted">Screenshot uploaded Apr 30</td>
+                  <td><div class="admin-actions"><button class="btn-green btn-sm" onclick="showToast('Payment confirmed!')">Confirm</button><button class="btn-red btn-sm" onclick="showToast('Payment rejected','warning')">Reject</button></div></td></tr>
+                <tr><td><strong>Jenny Luz</strong><div class="td-muted">Room 3B · Green Park</div></td><td class="text-green">₱3,200</td><td><span class="badge badge-blue">Bank Transfer</span></td><td class="td-muted">Bank receipt uploaded May 1</td>
+                  <td><div class="admin-actions"><button class="btn-green btn-sm" onclick="showToast('Payment confirmed!')">Confirm</button><button class="btn-red btn-sm" onclick="showToast('Payment rejected','warning')">Reject</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERDUE -->
+      <div id="tab-overdue" style="display:none">
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Tenant</th><th>Room</th><th>Amount Due</th><th>Late Fee</th><th>Days Overdue</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Dennis Vega</strong></td><td>Dorm A — Villa Hermosa</td><td class="text-red">₱1,800</td><td class="text-amber">₱90 (5%)</td><td><span class="badge badge-red">12 days</span></td>
+                  <td><div class="admin-actions"><button class="btn-amber btn-sm" onclick="showToast('Reminder sent to Dennis','info')">Send Reminder</button><button class="btn-red btn-sm">Escalate</button></div></td></tr>
+                <tr><td><strong>Paul Andres</strong></td><td>Studio 4 — Bayside</td><td class="text-red">₱6,500</td><td class="text-amber">₱325 (5%)</td><td><span class="badge badge-amber">5 days</span></td>
+                  <td><div class="admin-actions"><button class="btn-amber btn-sm" onclick="showToast('Reminder sent','info')">Send Reminder</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- DISPUTES -->
+      <div id="tab-disputes" style="display:none">
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Dispute ID</th><th>Tenant</th><th>Issue</th><th>Amount</th><th>Filed</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="td-muted">DSP-001</td><td><strong>Rosa Santos</strong></td><td>Overbilled ₱800 in March</td><td class="text-amber">₱800</td><td class="td-muted">Apr 25</td><td><span class="badge badge-amber">Under Review</span></td>
+                  <td><div class="admin-actions"><button class="btn-green btn-sm" onclick="showToast('Refund issued to Rosa!')">Issue Refund</button><button class="btn-red btn-sm" onclick="showToast('Dispute closed','warning')">Close</button></div></td></tr>
+                <tr><td class="td-muted">DSP-002</td><td><strong>Marco Reyes</strong></td><td>Deposit not returned</td><td class="text-amber">₱5,600</td><td class="td-muted">Apr 20</td><td><span class="badge badge-blue">In Progress</span></td>
+                  <td><div class="admin-actions"><button class="btn-green btn-sm" onclick="showToast('Deposit released!')">Release Deposit</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var payments = [
+  {ref:'PAY-20260501-001',tenant:'Marco Reyes',room:'Room 2B · Sunset Apts',amt:2800,disc:'None',method:'GCash',period:'May 2026',status:'Paid'},
+  {ref:'PAY-20260501-002',tenant:'Rosa Santos',room:'Studio 4 · Bayside',amt:5200,disc:'Senior 20%',method:'Maya',period:'May 2026',status:'Paid'},
+  {ref:'PAY-20260501-003',tenant:'Lito Cruz',room:'Room 2B · Sunset Apts',amt:2240,disc:'PWD 20%',method:'Bank Transfer',period:'May 2026',status:'Paid'},
+  {ref:'PAY-20260430-004',tenant:'Carlo Ramos',room:'Dorm A · Villa Hermosa',amt:1440,disc:'Student 10%+PWD 20%',method:'GCash',period:'May 2026',status:'Pending'},
+  {ref:'PAY-20260430-005',tenant:'Dennis Vega',room:'Dorm A · Villa Hermosa',amt:1800,disc:'None',method:'Cash',period:'May 2026',status:'Overdue'},
+  {ref:'PAY-20260428-006',tenant:'Ana Torres',room:'Room 1C · Green Park',amt:2880,disc:'Student 10%',method:'GCash',period:'Apr 2026',status:'Paid'},
+];
+var sc={Paid:'badge-green',Pending:'badge-amber',Overdue:'badge-red',Disputed:'badge-purple'};
+var mc={GCash:'badge-green',Maya:'badge-blue','Bank Transfer':'badge-teal',Cash:'badge-gray'};
+function renderPayments(){
+  var h='';
+  payments.forEach(function(p){
+    h+='<tr><td class="td-muted" style="font-size:11px">'+p.ref+'</td><td><strong>'+p.tenant+'</strong></td><td class="td-muted">'+p.room+'</td><td class="text-green">₱'+p.amt.toLocaleString()+'</td><td>'+(p.disc==='None'?'<span class="text-muted">—</span>':'<span class="badge badge-teal">'+p.disc+'</span>')+'</td><td><span class="badge '+mc[p.method]+'">'+p.method+'</span></td><td class="td-muted">'+p.period+'</td><td><span class="badge '+sc[p.status]+'">'+p.status+'</span></td><td><button class="btn-blue btn-sm" onclick="showToast(\'Receipt generated!\')">Receipt</button></td></tr>';
+  });
+  document.getElementById('pay-tbody').innerHTML=h;
+}
+function showPayTab(id,el){
+  ['tab-all','tab-pending','tab-overdue','tab-disputes'].forEach(function(t){document.getElementById(t).style.display='none';});
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.page-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+}
+renderPayments();
+</script>
+</body>
+</html>

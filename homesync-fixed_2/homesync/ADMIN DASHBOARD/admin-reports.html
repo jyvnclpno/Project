@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Reports</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item active" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Report Management</h1><p>Review and resolve all user-submitted reports</p></div>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+        <div class="stat-card"><div class="stat-ico red">🔴</div><div><div class="stat-num">7</div><div class="stat-label">Open Reports</div><div class="stat-change down">Needs action</div></div></div>
+        <div class="stat-card"><div class="stat-ico blue">🔵</div><div><div class="stat-num">4</div><div class="stat-label">In Progress</div></div></div>
+        <div class="stat-card"><div class="stat-ico green">✅</div><div><div class="stat-num">83</div><div class="stat-label">Resolved (all time)</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">⚡</div><div><div class="stat-num">2</div><div class="stat-label">Urgent / High</div><div class="stat-change down">Immediate action</div></div></div>
+      </div>
+
+      <div class="filter-bar">
+        <input class="search-input" id="rep-search" placeholder="🔍 Search reports…" oninput="filterTable('rep-search','rep-tbl')">
+        <select class="filter-select" onchange="filterReports(this.value)"><option value="">All Categories</option><option>Maintenance</option><option>Tenant Issue</option><option>Landlord Issue</option><option>Payment Dispute</option><option>Policy Violation</option><option>Safety Concern</option></select>
+        <select class="filter-select" onchange="filterReports(this.value)"><option value="">All Severity</option><option>Low</option><option>Medium</option><option>High</option><option>Urgent</option></select>
+        <select class="filter-select" onchange="filterReports(this.value)"><option value="">All Status</option><option>Under Review</option><option>In Progress</option><option>Resolved</option><option>Closed</option></select>
+        <button class="btn-green btn-sm" onclick="showToast('Exported to CSV!')">Export</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table id="rep-tbl">
+            <thead><tr><th>ID</th><th>Category</th><th>Subject</th><th>Reporter</th><th>Property</th><th>Severity</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="rep-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT DETAIL MODAL -->
+<div class="modal-overlay hidden" id="rep-detail-modal">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-hd"><h2 id="rep-modal-title">Report Detail</h2><button class="modal-close" onclick="closeModal('rep-detail-modal')">✕</button></div>
+    <div class="modal-body" id="rep-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('rep-detail-modal')">Close</button>
+      <button class="btn-amber" onclick="closeModal('rep-detail-modal');showToast('Marked In Progress','info')">Mark In Progress</button>
+      <button class="btn-green" onclick="closeModal('rep-detail-modal');showToast('Report resolved!')">Mark Resolved</button>
+    </div>
+  </div>
+</div>
+
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+<script>
+var reports = [
+  {id:'RPT-2026-0841',cat:'Maintenance',ico:'🔧',sub:'Leaking pipe in bathroom — Room 2B',reporter:'Juan dela Cruz',anon:false,prop:'Sunset Apartments, QC',sev:'High',status:'Under Review',date:'Apr 28, 2026',detail:'The pipe under the bathroom sink has been leaking for 3 days. There is water pooling on the floor. Tenant requests urgent repair.'},
+  {id:'RPT-2026-0840',cat:'Safety Concern',ico:'⚠️',sub:'Broken fire exit door — Dorm A',reporter:'Anonymous',anon:true,prop:'Villa Hermosa, Taguig',sev:'Urgent',status:'In Progress',date:'Apr 27, 2026',detail:'The fire exit door on the ground floor of Dorm A cannot be opened from the inside. This is a serious fire safety violation.'},
+  {id:'RPT-2026-0835',cat:'Payment Dispute',ico:'💸',sub:'Overbilling — extra ₱800 charged for March',reporter:'Rosa Santos',anon:false,prop:'Bayside Residences, Pasig',sev:'Medium',status:'In Progress',date:'Apr 25, 2026',detail:'My March bill shows ₱7,300 but my contract states ₱6,500. No explanation was provided for the extra ₱800.'},
+  {id:'RPT-2026-0829',cat:'Policy Violation',ico:'📜',sub:'Unauthorized overnight guests',reporter:'Anonymous',anon:true,prop:'Sunset Apartments, QC',sev:'Low',status:'Under Review',date:'Apr 22, 2026',detail:'Unit 3A regularly has overnight guests violating house rules. Loud noise after 11PM on weekends.'},
+  {id:'RPT-2026-0820',cat:'Landlord Issue',ico:'🏠',sub:'Landlord entered room without notice',reporter:'Lito Cruz',anon:false,prop:'Sunset Apartments, QC',sev:'High',status:'Under Review',date:'Apr 20, 2026',detail:'Landlord entered my room at 9AM without prior notice or permission. I was still asleep. This has happened twice.'},
+  {id:'RPT-2026-0810',cat:'Maintenance',ico:'🔧',sub:'No hot water for 5 days',reporter:'Ana Torres',anon:false,prop:'Green Park, Mandaluyong',sev:'Medium',status:'Under Review',date:'Apr 18, 2026',detail:'Hot shower has not been working for 5 days. Reported to landlord but no action taken yet.'},
+  {id:'RPT-2026-0798',cat:'Tenant Issue',ico:'👤',sub:'Theft of personal items in shared room',reporter:'Marco Reyes',anon:false,prop:'Sunset Apartments, QC',sev:'High',status:'Under Review',date:'Apr 15, 2026',detail:'My charger and earphones were stolen from the shared room. I suspect a co-occupant. CCTV footage requested.'},
+  {id:'RPT-2026-0750',cat:'Maintenance',ico:'🔧',sub:'AC unit not cooling',reporter:'Paul Andres',anon:false,prop:'Bayside Residences, Pasig',sev:'Low',status:'Resolved',date:'Apr 10, 2026',detail:'AC was not functioning properly. Resolved after technician visit on Apr 12.'},
+  {id:'RPT-2026-0720',cat:'Payment Dispute',ico:'💸',sub:'Deposit not returned after 2 months',reporter:'Jenny Luz',anon:false,prop:'Villa Hermosa, Taguig',sev:'Medium',status:'Resolved',date:'Mar 28, 2026',detail:'Moved out Feb 28. Deposit of ₱3,600 not yet returned despite no damages found during inspection.'},
+];
+
+var sevColor = {Low:'badge-blue',Medium:'badge-amber',High:'badge-red',Urgent:'badge-red'};
+var statColor = {'Under Review':'badge-amber','In Progress':'badge-blue','Resolved':'badge-green','Closed':'badge-gray'};
+
+function renderReports() {
+  var h = '';
+  reports.forEach(function(r) {
+    h += '<tr>' +
+      '<td class="td-muted" style="font-size:11px">'+r.id+'</td>' +
+      '<td><span style="font-size:14px">'+r.ico+'</span> '+r.cat+'</td>' +
+      '<td><strong>'+r.sub+'</strong></td>' +
+      '<td>'+(r.anon?'<span class="badge badge-gray">Anonymous</span>':r.reporter)+'</td>' +
+      '<td class="td-muted">'+r.prop+'</td>' +
+      '<td><span class="badge '+sevColor[r.sev]+'">'+r.sev+'</span></td>' +
+      '<td><span class="badge '+statColor[r.status]+'">'+r.status+'</span></td>' +
+      '<td class="td-muted">'+r.date+'</td>' +
+      '<td><div class="admin-actions">' +
+        '<button class="btn-blue btn-sm" onclick="viewReport(\''+r.id+'\')">View</button>' +
+        (r.status!=='Resolved'&&r.status!=='Closed'?'<button class="btn-green btn-sm" onclick="showToast(\'Report resolved!\')">Resolve</button>':'') +
+      '</div></td>' +
+    '</tr>';
+  });
+  document.getElementById('rep-tbody').innerHTML = h;
+}
+
+function viewReport(id) {
+  var r = reports.find(function(x){return x.id===id;});
+  if(!r) return;
+  document.getElementById('rep-modal-title').textContent = r.id + ' — ' + r.cat;
+  document.getElementById('rep-modal-body').innerHTML =
+    '<div class="info-box"><strong>'+r.sub+'</strong><br>'+r.prop+'</div>' +
+    '<div class="form-grid-2" style="margin-bottom:14px">' +
+      '<div><div class="text-muted text-xs" style="margin-bottom:4px">REPORTER</div><div>'+(r.anon?'<span class="badge badge-gray">Anonymous</span>':r.reporter)+'</div></div>' +
+      '<div><div class="text-muted text-xs" style="margin-bottom:4px">DATE FILED</div><div>'+r.date+'</div></div>' +
+      '<div><div class="text-muted text-xs" style="margin-bottom:4px">SEVERITY</div><div><span class="badge '+sevColor[r.sev]+'">'+r.sev+'</span></div></div>' +
+      '<div><div class="text-muted text-xs" style="margin-bottom:4px">STATUS</div><div><span class="badge '+statColor[r.status]+'">'+r.status+'</span></div></div>' +
+    '</div>' +
+    '<div class="text-muted text-xs" style="margin-bottom:6px">DESCRIPTION</div>' +
+    '<div class="info-box" style="margin-bottom:14px">'+r.detail+'</div>' +
+    '<div class="form-group"><label>Admin Response / Action Taken</label><textarea placeholder="Describe what action was taken or is planned..."></textarea></div>' +
+    '<div class="form-group"><label>Assign To</label><select><option>Unassigned</option><option>Admin — Maria Cruz</option><option>Maintenance Team</option><option>Escalate to Management</option></select></div>';
+  openModal('rep-detail-modal');
+}
+
+function filterReports(val) { renderReports(); }
+
+renderReports();
+</script>
+</body>
+</html>

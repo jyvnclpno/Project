@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room 101 — Sunset Apartments | HomeSync</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="../ASSETS/style.css">
+  <style>.room-page{max-width:960px;margin:0 auto;padding:24px;}.room-hero{background:linear-gradient(135deg,#2e3840,#1e272e);border:1px solid #4a5568;border-radius:14px;padding:32px;margin-bottom:24px;display:flex;gap:24px;flex-wrap:wrap;}.room-info{flex:1;min-width:240px;}.room-info h1{color:#fff;font-size:24px;margin-bottom:6px;}.room-info .price{color:#22c55e;font-size:28px;font-weight:800;margin:10px 0;}.room-info .price span{font-size:14px;font-weight:400;color:#64748b;}.room-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:12px;}.room-badge.available{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid #22c55e;}.amenities{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}.amenity{background:#2e3840;border:1px solid #4a5568;border-radius:8px;padding:6px 12px;font-size:12px;color:#94a3b8;}.room-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}.gallery-item{background:#2e3840;border:1px solid #4a5568;border-radius:8px;height:100px;display:flex;align-items:center;justify-content:center;font-size:36px;}.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}.detail-card{background:#2e3840;border:1px solid #4a5568;border-radius:10px;padding:16px;}.detail-card h3{color:#94a3b8;font-size:12px;margin-bottom:6px;}.detail-card p{color:#fff;font-size:15px;font-weight:500;}</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="../LANDING PAGE/index.html">Home<span>Sync</span></a>
+  <div class="nav-links">
+    <a href="../TENANT DASHBOARD/tenant-browse.html">← Browse Rooms</a>
+    <a href="../LOGIN AND SIGN IN PAGE/login.html"><button class="btn-login">Login</button></a>
+  </div>
+</nav>
+<div class="room-page">
+  <div class="room-hero">
+    <div class="room-info">
+      <span class="room-badge available">✅ Available</span>
+      <h1>Room 101 — Sunset Apartments</h1>
+      <div style="color:#94a3b8;font-size:13px;margin-bottom:10px;">📍 Quezon City, Metro Manila</div>
+      <div class="price">₱6,500 <span>/ month</span></div>
+      <div style="color:#94a3b8;font-size:13px;margin-bottom:16px;">Single occupancy · 18 sqm · 2nd Floor</div>
+      <div class="amenities">
+        <span class="amenity">🛜 WiFi Included</span>
+        <span class="amenity">❄️ Aircon</span>
+        <span class="amenity">🚿 Private Bath</span>
+        <span class="amenity">🪑 Furnished</span>
+        <span class="amenity">🔒 CCTV</span>
+        <span class="amenity">💡 Meralco included</span>
+      </div>
+    </div>
+    <div>
+      <button class="btn-green" onclick="handleHold()" style="width:200px;margin-bottom:10px;">📌 Place a Hold</button><br>
+      <button onclick="window.location.href='../LOGIN AND SIGN IN PAGE/signup.html'" style="width:200px;padding:11px;background:#2e3840;border:1px solid #4a5568;color:#94a3b8;border-radius:8px;cursor:pointer;font-size:13px;">📋 Apply Now</button>
+      <div style="margin-top:12px;font-size:11px;color:#64748b;text-align:center;">Holds are valid for 48 hours</div>
+    </div>
+  </div>
+
+  <div class="room-gallery">
+    <div class="gallery-item">🛏️</div>
+    <div class="gallery-item">🚿</div>
+    <div class="gallery-item">🪟</div>
+    <div class="gallery-item">🛋️</div>
+    <div class="gallery-item">🍳</div>
+    <div class="gallery-item">🏠</div>
+  </div>
+
+  <div class="cc" style="margin-bottom:16px;">
+    <h3>About this room</h3>
+    <p style="color:#94a3b8;font-size:14px;line-height:1.8;">A cozy, fully furnished single room on the 2nd floor of Sunset Apartments in Quezon City. Perfect for students or working professionals. The room features a private bathroom, air conditioning, and includes WiFi and Meralco in the monthly rent. The building has 24/7 CCTV surveillance and a secure gate.</p>
+  </div>
+
+  <div class="details-grid">
+    <div class="detail-card"><h3>MONTHLY RENT</h3><p>₱6,500</p></div>
+    <div class="detail-card"><h3>ROOM SIZE</h3><p>18 sqm</p></div>
+    <div class="detail-card"><h3>OCCUPANCY</h3><p>1 person (Single)</p></div>
+    <div class="detail-card"><h3>FLOOR</h3><p>2nd Floor</p></div>
+    <div class="detail-card"><h3>LEASE TERM</h3><p>6 or 12 months</p></div>
+    <div class="detail-card"><h3>MOVE-IN DATE</h3><p>June 1, 2026</p></div>
+    <div class="detail-card"><h3>DEPOSIT</h3><p>1 month advance + 1 month deposit</p></div>
+    <div class="detail-card"><h3>PET POLICY</h3><p>No pets allowed</p></div>
+  </div>
+</div>
+<footer>
+  <div class="footer-links"><a href="../PAGES/privacy.html">Privacy</a><a href="../PAGES/terms.html">Terms</a><a href="../PAGES/contact.html">Contact</a></div>
+  <p>© 2026 HomeSync Philippines. All rights reserved.</p>
+</footer>
+<script src="../ASSETS/main.js"></script>
+<script>
+function handleHold() {
+  var s = HS.getSession();
+  if (!s) { window.location.href='../LOGIN AND SIGN IN PAGE/login.html'; return; }
+  showToast('Hold placed on Room 101! Valid for 48 hours.','success');
+  var holds = JSON.parse(localStorage.getItem('hs_holds')||'[]');
+  holds.unshift({ room:'Room 101', property:'Sunset Apartments', price:'₱6,500/mo', expiry: Date.now()+172800000 });
+  localStorage.setItem('hs_holds', JSON.stringify(holds));
+}
+</script>
+</body>
+</html>

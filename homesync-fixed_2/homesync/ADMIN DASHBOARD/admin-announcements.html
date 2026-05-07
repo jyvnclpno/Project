@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Announcements</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item active" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Announcements</h1><p>Broadcast messages to all users or specific groups</p></div>
+      <div class="topbar-r"><button class="btn-green" onclick="openModal('ann-modal')">+ New Announcement</button></div>
+    </div>
+    <div class="page-body">
+      <div class="grid-2">
+        <div>
+          <div class="section-title" style="margin-bottom:14px">📌 Pinned Announcements</div>
+          <div class="announce-card pinned">
+            <div class="announce-pin">📌 PINNED</div>
+            <div class="announce-title">May 2026 Rent Reminder</div>
+            <div class="announce-body">Monthly rent is due on or before May 5, 2026. Please pay via GCash, Maya, or bank transfer. Submit proof of payment through your dashboard. Late payments incur a 5% monthly fee.</div>
+            <div class="announce-meta"><span>📢 All Tenants</span><span>Posted: May 1, 2026</span><span>By: System Admin</span></div>
+            <div style="margin-top:10px;display:flex;gap:6px">
+              <button class="btn-amber btn-sm" onclick="showToast('Announcement edited')">Edit</button>
+              <button class="btn-red btn-sm" onclick="showToast('Unpinned','warning')">Unpin</button>
+            </div>
+          </div>
+          <div class="announce-card pinned">
+            <div class="announce-pin">📌 PINNED</div>
+            <div class="announce-title">Water Interruption Notice — Sunset Apartments</div>
+            <div class="announce-body">There will be a scheduled water interruption on May 6, 2026 from 8AM to 5PM for pipe maintenance. Please store enough water beforehand. We apologize for the inconvenience.</div>
+            <div class="announce-meta"><span>🏢 Sunset Apartments</span><span>Posted: May 3, 2026</span></div>
+            <div style="margin-top:10px;display:flex;gap:6px">
+              <button class="btn-amber btn-sm">Edit</button>
+              <button class="btn-red btn-sm" onclick="showToast('Unpinned','warning')">Unpin</button>
+            </div>
+          </div>
+          <div class="section-title" style="margin:20px 0 14px">📋 Recent Announcements</div>
+          <div class="announce-card">
+            <div class="announce-title">New Laundry Schedule — Villa Hermosa</div>
+            <div class="announce-body">Starting May 2026, the laundry area schedule is: Mon/Wed/Fri for odd room numbers, Tue/Thu/Sat for even room numbers. Sunday is open for all.</div>
+            <div class="announce-meta"><span>🏢 Villa Hermosa</span><span>Posted: Apr 28, 2026</span></div>
+            <div style="margin-top:8px;display:flex;gap:6px"><button class="btn-blue btn-sm">Edit</button><button class="btn-red btn-sm" onclick="confirmAction('Delete this announcement?',function(){showToast('Deleted','warning')})">Delete</button></div>
+          </div>
+          <div class="announce-card">
+            <div class="announce-title">PhilHealth / SSS / Pag-IBIG Reminders</div>
+            <div class="announce-body">For employed tenants: please ensure your government contributions are updated. HomeSync does not process these but encourages all tenants to stay compliant with Philippine labor regulations.</div>
+            <div class="announce-meta"><span>📢 All Tenants</span><span>Posted: Apr 15, 2026</span></div>
+            <div style="margin-top:8px;display:flex;gap:6px"><button class="btn-blue btn-sm">Edit</button><button class="btn-red btn-sm" onclick="confirmAction('Delete?',function(){showToast('Deleted','warning')})">Delete</button></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-card">
+            <div class="section-title">📊 Announcement Stats</div>
+            <div class="grid-2" style="gap:10px;margin-bottom:0">
+              <div style="background:#3d4a56;border-radius:8px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:bold;color:white">18</div><div style="font-size:11px;color:#94a3b8">Total Posted (2026)</div></div>
+              <div style="background:#3d4a56;border-radius:8px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:bold;color:white">2</div><div style="font-size:11px;color:#94a3b8">Currently Pinned</div></div>
+              <div style="background:#3d4a56;border-radius:8px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:bold;color:#22c55e">412</div><div style="font-size:11px;color:#94a3b8">Tenants Reached</div></div>
+              <div style="background:#3d4a56;border-radius:8px;padding:14px;text-align:center"><div style="font-size:22px;font-weight:bold;color:#60a5fa">89%</div><div style="font-size:11px;color:#94a3b8">Average Read Rate</div></div>
+            </div>
+          </div>
+          <div class="section-card" style="margin-top:14px">
+            <div class="section-title">📢 Quick Broadcast</div>
+            <div class="form-group"><label>Send To</label>
+              <select><option>All Tenants</option><option>All Landlords</option><option>Specific Property</option><option>All Users</option></select>
+            </div>
+            <div class="form-group"><label>Message</label>
+              <textarea placeholder="Type a quick broadcast message…" style="min-height:80px"></textarea>
+            </div>
+            <button class="btn-green" style="width:100%" onclick="showToast('Broadcast sent to all tenants!')">Send Broadcast</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW ANNOUNCEMENT MODAL -->
+<div class="modal-overlay hidden" id="ann-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>New Announcement</h2><button class="modal-close" onclick="closeModal('ann-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><input placeholder="Announcement title"></div>
+      <div class="form-group"><label>Message</label><textarea style="min-height:100px" placeholder="Write the full announcement here..."></textarea></div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>Send To</label>
+          <select><option>All Tenants</option><option>All Landlords</option><option>Specific Property</option><option>All Users</option></select>
+        </div>
+        <div class="form-group"><label>Specific Property (if applicable)</label>
+          <select><option>— All Properties —</option><option>Sunset Apartments</option><option>Bayside Residences</option><option>Villa Hermosa</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Priority</label>
+        <div class="pill-group">
+          <div class="pill active" data-group="ann-pri" onclick="pillSelect(this,'ann-pri')">Normal</div>
+          <div class="pill" data-group="ann-pri" onclick="pillSelect(this,'ann-pri')">Important</div>
+          <div class="pill" style="border-color:#f87171;color:#f87171" data-group="ann-pri" onclick="pillSelect(this,'ann-pri')">Urgent</div>
+        </div>
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px">
+        <input type="checkbox" id="pin-chk"> <label for="pin-chk" style="text-transform:none;font-size:13px;color:white;font-weight:normal">Pin this announcement to the top</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('ann-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('ann-modal');showToast('Announcement published!')">Publish</button>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+</body>
+</html>

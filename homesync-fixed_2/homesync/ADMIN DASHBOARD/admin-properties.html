@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSync Admin — Properties</title>
+<link rel="stylesheet" href="../ASSETS/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar admin">
+    <a class="sb-logo" href="admin-overview.html">Home<span>Sync</span> <span style="font-size:10px;background:#a78bfa;color:#000;border-radius:4px;padding:1px 6px;margin-left:4px">ADMIN</span></a>
+    <div class="sb-section">Dashboard</div>
+    <a class="sb-item" href="admin-overview.html">📊 Overview</a>
+    <a class="sb-item" href="admin-users.html">👥 Users</a>
+    <a class="sb-item active" href="admin-properties.html">🏢 Properties</a>
+    <a class="sb-item" href="admin-rooms.html">🏠 Rooms</a>
+    <div class="sb-section">Finance</div>
+    <a class="sb-item" href="admin-payments.html">💳 Payments</a>
+    <a class="sb-item" href="admin-discounts.html">🏷️ Discounts</a>
+    <div class="sb-section">Moderation</div>
+    <a class="sb-item" href="admin-reports.html">🚨 Reports <span class="sb-badge red">7</span></a>
+    <a class="sb-item" href="admin-announcements.html">📢 Announcements</a>
+    <div class="sb-section">System</div>
+    <a class="sb-item" href="admin-audit.html">🔍 Audit Log</a>
+    <a class="sb-item" href="admin-settings.html">⚙️ Settings</a>
+    <a class="sb-foot" href="../LOGIN AND SIGN IN PAGE/login.html" >
+      <div class="avatar purple">SA</div><div><div class="av-name">System Admin</div><div class="av-role">Logout</div></div>
+    </a>
+  </aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div><h1>Properties</h1><p>All registered properties on the platform</p></div>
+      <div class="topbar-r"><button class="btn-green" onclick="openModal('add-prop-modal')">+ Add Property</button></div>
+    </div>
+    <div class="page-body">
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+        <div class="stat-card"><div class="stat-ico blue">🏢</div><div><div class="stat-num">24</div><div class="stat-label">Total Properties</div></div></div>
+        <div class="stat-card"><div class="stat-ico green">✅</div><div><div class="stat-num">22</div><div class="stat-label">Active</div></div></div>
+        <div class="stat-card"><div class="stat-ico amber">⏳</div><div><div class="stat-num">2</div><div class="stat-label">Pending Approval</div></div></div>
+        <div class="stat-card"><div class="stat-ico purple">🏠</div><div><div class="stat-num">186</div><div class="stat-label">Total Rooms</div></div></div>
+      </div>
+      <div class="filter-bar">
+        <input class="search-input" id="prop-search" placeholder="🔍 Search property or landlord…" oninput="filterTable('prop-search','prop-tbl')">
+        <select class="filter-select"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
+        <select class="filter-select"><option>All Cities</option><option>Quezon City</option><option>Pasig</option><option>Taguig</option><option>Mandaluyong</option></select>
+        <button class="btn-green btn-sm" onclick="showToast('Exported!')">Export</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table id="prop-tbl">
+            <thead><tr><th>Property</th><th>Landlord</th><th>City</th><th>Rooms</th><th>Occupancy</th><th>Revenue/Mo</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sunset Apartments</strong><div class="td-muted">123 Katipunan Ave</div></td><td>Maria Santos</td><td>Quezon City</td><td>45</td><td><span class="text-green">94%</span></td><td class="text-green">₱480,000</td><td><span class="badge badge-green">Active</span></td>
+                <td><div class="admin-actions"><button class="btn-blue btn-sm">View</button><button class="btn-amber btn-sm">Suspend</button></div></td></tr>
+              <tr><td><strong>Bayside Residences</strong><div class="td-muted">88 Ortigas Ave</div></td><td>Maria Santos</td><td>Pasig</td><td>38</td><td><span class="text-green">89%</span></td><td class="text-green">₱390,000</td><td><span class="badge badge-green">Active</span></td>
+                <td><div class="admin-actions"><button class="btn-blue btn-sm">View</button><button class="btn-amber btn-sm">Suspend</button></div></td></tr>
+              <tr><td><strong>Villa Hermosa</strong><div class="td-muted">45 BGC Road</div></td><td>Roberto Lim</td><td>Taguig</td><td>30</td><td><span class="text-amber">78%</span></td><td class="text-green">₱280,000</td><td><span class="badge badge-green">Active</span></td>
+                <td><div class="admin-actions"><button class="btn-blue btn-sm">View</button><button class="btn-amber btn-sm">Suspend</button></div></td></tr>
+              <tr><td><strong>Green Park Studios</strong><div class="td-muted">22 Shaw Blvd</div></td><td>Pedro Villanueva</td><td>Mandaluyong</td><td>22</td><td><span class="text-amber">82%</span></td><td class="text-green">₱240,000</td><td><span class="badge badge-amber">Pending</span></td>
+                <td><div class="admin-actions"><button class="btn-green btn-sm" onclick="showToast('Property approved!')">Approve</button><button class="btn-red btn-sm" onclick="showToast('Property rejected','warning')">Reject</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay hidden" id="add-prop-modal">
+  <div class="modal">
+    <div class="modal-hd"><h2>Add Property</h2><button class="modal-close" onclick="closeModal('add-prop-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Property Name</label><input placeholder="e.g. Sunrise Suites"></div>
+      <div class="form-group"><label>Full Address</label><input placeholder="Street, Barangay, City, Province"></div>
+      <div class="form-grid-2">
+        <div class="form-group"><label>City</label><select><option>Quezon City</option><option>Pasig</option><option>Taguig</option><option>Mandaluyong</option><option>Makati</option><option>Other</option></select></div>
+        <div class="form-group"><label>Assign Landlord</label><select><option>Maria Santos</option><option>Roberto Lim</option><option>Pedro Villanueva</option></select></div>
+      </div>
+      <div class="form-group"><label>Total Units / Rooms</label><input type="number" placeholder="e.g. 20"></div>
+      <div class="form-group"><label>Notes</label><textarea placeholder="Additional info about this property..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-green" onclick="closeModal('add-prop-modal')">Cancel</button>
+      <button class="btn-green" onclick="closeModal('add-prop-modal');showToast('Property added and pending review!')">Add Property</button>
+    </div>
+  </div>
+</div>
+<script src="../ASSETS/main.js"></script>
+<script>guardPage("admin");</script>
+</body>
+</html>
